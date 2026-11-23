@@ -7,32 +7,32 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { loadBossArt } from "./boss-art.js?v=20261118dd2";
-import { onPlatformCollide, getWindX, resetKeys } from "./blocks.js?v=20261118dd2";
-import { createArtOrbs } from "./artefacts.js?v=20261118dd2";
-import { updateBossFight } from "./boss-combat.js?v=20261118dd2";
-import { btnCloseQuiz, btnMute, btnPause, btnRestart, btnRestartGame, gameOverOverlay, historyOverlay, quizOverlay, startOverlay, winOverlay } from "./dom.js?v=20261118dd2";
-import { playLevelTransition } from "./door.js?v=20261118dd2";
-import { pickPraise, showFloat } from "./feedback.js?v=20261118dd2";
-import { createTouchInput } from "./input.js?v=20261118dd2";
-import { onCollectItem, onHitMalware, poweredCountdownVal } from "./items.js?v=20261118dd2";
-import { loadLevel, updateHUD, updateHearts, updateProgressBar } from "./level.js?v=20261118dd2";
-import { BG_FILES, _bootLevelIdx, bgKeyForLevel, prefersReducedMotion, renderMap, setupBackgroundLoading } from "./map.js?v=20261118dd2";
-import { SECONDARY_OVERLAYS, closeAllSecondaryOverlays, loadGame, openOverlay, saveGame } from "./overlays.js?v=20261118dd2";
-import { quizStats, resetQuizStats, showHistory, usedQuizByLevel, usedQuizByTheme } from "./quiz.js?v=20261118dd2";
-import { exitCrouch, setCrouchHitbox, tryEnterPipe } from "./rooms.js?v=20261118dd2";
-import { COYOTE_MS, GRAVITY, JUMP_BUFFER_MS, _critterSession, _doorAnimRunning, _doorWatchdogTimer, _hudDirty, _landingCheckTimer, _overlayPaused, _pipeDownWasHeld, _pipeWarping, _suppressCrouchUntilRelease, awaitingQuiz, awaitingStory, balloons, bossState, controlsInvertedUntil, coyoteUntil, critters, currentLevel, cursors, door, doorOverlap, doubleJumpActive, doubleJumpUsed, getStartLives, hazards, inBossFight, inSecretRoom, invuln, isCrouching, itemsGroup, jumpBufferedUntil, keyS, keySpace, lives, malwareGroup, mapProgress, pauseOverlayGfx, pausedByTeacher, pipes, platforms, player, powerHaloGfx, powered, progressBg, progressFill, resetPipeWarpState, sceneRef, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__historySubOpen, set__hudDirty, set__landingCheckTimer, set__overlayPaused, set__pipeDownWasHeld, set__suppressCrouchUntilRelease, set_awaitingQuiz, set_awaitingStory, set_coyoteUntil, set_cursors, set_difficultyBadge, set_doorOverlap, set_doubleJumpUsed, set_heartsGfx, set_hudText, set_isCrouching, set_itemCountText, set_itemsGroup, set_jumpBufferedUntil, set_keyS, set_keySpace, set_lives, set_livesLostThisLevel, set_malwareGroup, set_pauseOverlayGfx, set_pausedByTeacher, set_platforms, set_player, set_playerNameHUD, set_powerHaloGfx, set_powerIndicator, set_progressBg, set_progressFill, set_sceneRef, set_score, set_scoreText, set_shadowGfx, set_sunAngle, set_tipText, set_transitionGfx, set_transitionLabel, shadowGfx, starPower, starPowerCountVal, sunAngle, touch, updateDifficultyBadge } from "./state.js?v=20261118dd2";
-import { flushScoreToStats } from "./stats.js?v=20261118dd2";
-import { applyVanBertoTexture, scheduleBlink, triggerVanBertoWink } from "./vanberto.js?v=20261118dd2";
-import { updateDecorativePipeReactions, updateHazards, updateMovingPlatforms, updatePipeHintSign, updateSecretSigns, updateSecrets, updateSigns, updateTrampolines } from "./world.js?v=20261118dd2";
-import { makeTextures } from "../textures.js?v=20261118dd2";
-import { initBackground, drawSun, NIGHT_THEMES, drawStars, clouds, drawCloud, updateTrail, updateFootsteps, updateDoorGlow, updatePlatformDecor, bgConfetti } from "../background.js?v=20261118dd2";
-import { isMuted, ensureAudio, SFX, beep } from "../audio.js?v=20261118dd2";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261118dd2";
-import { ACHIEVEMENTS_DEFS } from "../data-progression.js?v=20261118dd2";
-import { unlockedAchievements } from "../achievements.js?v=20261118dd2";
-import { totalStarsEarned } from "../stars.js?v=20261118dd2";
-import { PAUSE_TIPS } from "../data-flavor.js?v=20261118dd2";
+import { loadBossArt } from "./boss-art.js?v=20261123ee1";
+import { onPlatformCollide, getWindX, resetKeys } from "./blocks.js?v=20261123ee1";
+import { createArtOrbs } from "./artefacts.js?v=20261123ee1";
+import { updateBossFight } from "./boss-combat.js?v=20261123ee1";
+import { btnCloseQuiz, btnMute, btnPause, btnRestart, btnRestartGame, gameOverOverlay, historyOverlay, quizOverlay, startOverlay, winOverlay } from "./dom.js?v=20261123ee1";
+import { playLevelTransition } from "./door.js?v=20261123ee1";
+import { pickPraise, showFloat } from "./feedback.js?v=20261123ee1";
+import { createTouchInput } from "./input.js?v=20261123ee1";
+import { onCollectItem, onHitMalware, poweredCountdownVal } from "./items.js?v=20261123ee1";
+import { loadLevel, updateHUD, updateHearts, updateProgressBar } from "./level.js?v=20261123ee1";
+import { BG_FILES, _bootLevelIdx, bgKeyForLevel, prefersReducedMotion, renderMap, setupBackgroundLoading } from "./map.js?v=20261123ee1";
+import { SECONDARY_OVERLAYS, closeAllSecondaryOverlays, loadGame, openOverlay, saveGame } from "./overlays.js?v=20261123ee1";
+import { quizStats, resetQuizStats, showHistory, usedQuizByLevel, usedQuizByTheme } from "./quiz.js?v=20261123ee1";
+import { exitCrouch, setCrouchHitbox, tryEnterPipe } from "./rooms.js?v=20261123ee1";
+import { COYOTE_MS, GRAVITY, JUMP_BUFFER_MS, _critterSession, _doorAnimRunning, _doorWatchdogTimer, _hudDirty, _landingCheckTimer, _overlayPaused, _pipeDownWasHeld, _pipeWarping, _suppressCrouchUntilRelease, awaitingQuiz, awaitingStory, balloons, bossState, controlsInvertedUntil, coyoteUntil, critters, currentLevel, cursors, door, doorOverlap, doubleJumpActive, doubleJumpUsed, getStartLives, hazards, inBossFight, inSecretRoom, invuln, isCrouching, itemsGroup, jumpBufferedUntil, keyS, keySpace, lives, malwareGroup, mapProgress, pauseOverlayGfx, pausedByTeacher, pipes, platforms, player, powerHaloGfx, powered, progressBg, progressFill, resetPipeWarpState, sceneRef, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__historySubOpen, set__hudDirty, set__landingCheckTimer, set__overlayPaused, set__pipeDownWasHeld, set__suppressCrouchUntilRelease, set_awaitingQuiz, set_awaitingStory, set_coyoteUntil, set_cursors, set_difficultyBadge, set_doorOverlap, set_doubleJumpUsed, set_heartsGfx, set_hudText, set_isCrouching, set_itemCountText, set_itemsGroup, set_jumpBufferedUntil, set_keyS, set_keySpace, set_lives, set_livesLostThisLevel, set_malwareGroup, set_pauseOverlayGfx, set_pausedByTeacher, set_platforms, set_player, set_playerNameHUD, set_powerHaloGfx, set_powerIndicator, set_progressBg, set_progressFill, set_sceneRef, set_score, set_scoreText, set_shadowGfx, set_sunAngle, set_tipText, set_transitionGfx, set_transitionLabel, shadowGfx, starPower, starPowerCountVal, sunAngle, touch, updateDifficultyBadge } from "./state.js?v=20261123ee1";
+import { flushScoreToStats } from "./stats.js?v=20261123ee1";
+import { applyVanBertoTexture, scheduleBlink, triggerVanBertoWink } from "./vanberto.js?v=20261123ee1";
+import { updateDecorativePipeReactions, updateHazards, updateMovingPlatforms, updatePipeHintSign, updateSecretSigns, updateSecrets, updateSigns, updateTrampolines } from "./world.js?v=20261123ee1";
+import { makeTextures } from "../textures.js?v=20261123ee1";
+import { initBackground, drawSun, NIGHT_THEMES, drawStars, clouds, drawCloud, updateTrail, updateFootsteps, updateDoorGlow, updatePlatformDecor, bgConfetti } from "../background.js?v=20261123ee1";
+import { isMuted, ensureAudio, SFX, beep } from "../audio.js?v=20261123ee1";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261123ee1";
+import { ACHIEVEMENTS_DEFS } from "../data-progression.js?v=20261123ee1";
+import { unlockedAchievements } from "../achievements.js?v=20261123ee1";
+import { totalStarsEarned } from "../stars.js?v=20261123ee1";
+import { PAUSE_TIPS } from "../data-flavor.js?v=20261123ee1";
 
 // ===== Salas secretas isoladas ("tipo os bosses") =====
 // Em vez de uma plataforma algures no mesmo mundo do nível, entrar num
@@ -1026,7 +1026,7 @@ function updateGameFrame() {
       if (m.x <= minL || m.body.blocked.left)  { m.setVelocityX(spd);  m.setData("dir", 1); }
       if (m.x >= minR || m.body.blocked.right) { m.setVelocityX(-spd); m.setData("dir", -1); }
       if (Math.abs(m.body.velocity.x) < 8) { m.setVelocityX(spd * dir); }
-      if (!isBoss) m.rotation += 0.012;
+      if (!isBoss && !m.getData("walkKey")) m.rotation += 0.012;
     } else if (pat === "drone_hostil") {
       // Drone Extremo — voa em patrulha horizontal (mesmo esquema de
       // minLeft/minRight do "mini"), mas SEM tocar no chão: gravidade
@@ -1079,10 +1079,25 @@ function updateGameFrame() {
       }
       // Watchdog robusto: se parou, usar direção guardada
       if (Math.abs(m.body.velocity.x) < 8) { m.setVelocityX(spd * (m.getData("dir") || 1)); }
-      if (!isBoss) m.rotation += pat === "jumper" ? 0.038 : 0.022;
+      if (!isBoss && !m.getData("walkKey")) m.rotation += pat === "jumper" ? 0.038 : 0.022;
     }
     if (m.body.velocity.x < -2) m.setFlipX(true);
     else if (m.body.velocity.x > 2) m.setFlipX(false);
+
+    // Caminhada: no chão alterna os 2 frames (pés) e balança de leve;
+    // no ar fica direito, com os pés juntos.
+    const wk = m.getData("walkKey");
+    if (wk && !isBoss && pat !== "drone_hostil") {
+      const t = sceneRef.time.now;
+      if (m.body.onFloor() && Math.abs(m.body.velocity.x) > 8) {
+        const step = t / (spd > 160 ? 110 : 150) + (m.getData("walkPhase") || 0);
+        m.setTexture(wk + "_w" + (Math.floor(step) % 2));
+        m.setAngle(Math.sin(step * Math.PI) * 3);
+      } else {
+        m.setTexture(wk + "_w0");
+        m.setAngle(0);
+      }
+    }
   });
 }
 

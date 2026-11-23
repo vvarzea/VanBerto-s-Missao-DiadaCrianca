@@ -7,22 +7,22 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { addBlocksAndPlatforms } from "./blocks.js?v=20261118dd2";
-import { createArtOrbs } from "./artefacts.js?v=20261118dd2";
-import { clearBossArenaDecor } from "./boss-core.js?v=20261118dd2";
-import { tryOpenDoor } from "./door.js?v=20261118dd2";
-import { showFloat } from "./feedback.js?v=20261118dd2";
-import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261118dd2";
-import { applyBackground, bgKeyForLevel, prefetchBackgrounds } from "./map.js?v=20261118dd2";
-import { saveGame } from "./overlays.js?v=20261118dd2";
-import { setCrouchHitbox, snapPlayerToGround } from "./rooms.js?v=20261118dd2";
-import { _doorWatchdogTimer, _landingCheckTimer, awaitingQuiz, bossExtremoAllies, bossState, bossTimers, currentLevel, currentLevelTip, decorativePipes, difficulty, door, doorOverlap, enemyTimers, getDifficulty, getMaxLives, getVillainJumpIntervalMult, getVillainSpeedMult, heartsGfx, hudText, invuln, isItemVisibleInDificil, isReducibleItemKind, isStarAllowedExtremo, itemCountText, itemsCollected, itemsGroup, itemsTotal, lives, malwareGroup, pipeExitDecor, pipes, platforms, player, playerName, playerNameHUD, powerHaloGfx, powerIndicator, powered, progressFill, resetPipeWarpState, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__pendingEntranceReveal, set_awaitingQuiz, set_bossExtremoAllies, set_bossTimers, set_collectedItemIndices, set_collectedRoomPipes, set_controlsInvertedUntil, set_currentLevel, set_currentLevelTip, set_decorativePipes, set_door, set_doorOverlap, set_enemyTimers, set_extraShieldCounted, set_inSecretRoom, set_invuln, set_isCrouching, set_itemsCollected, set_itemsTotal, set_livesLostThisLevel, set_pipeExitDecor, set_pipes, set_secretRoomHidden, set_secretRoomReturn, set_secretRoomTemp, shadowGfx, tipText, touch } from "./state.js?v=20261118dd2";
-import { clearHazards, clearMovingPlatforms, clearPipeHintSign, clearSecretSigns, clearSecrets, clearTrampolines, difficultyFactor, spawnBalloons, spawnCritters, spawnHazards, spawnLevelSign, spawnMovingPlatforms, spawnPipeHintSign, spawnSecrets, spawnShields, spawnTrampolines } from "./world.js?v=20261118dd2";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261118dd2";
-import { resetLevelStarTracking } from "../stars.js?v=20261118dd2";
-import { makePlatformTextureThemed, makePipeTexture } from "../textures.js?v=20261118dd2";
-import { spawnPlatformDecor, resetDoorGlow } from "../background.js?v=20261118dd2";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261118dd2";
+import { addBlocksAndPlatforms } from "./blocks.js?v=20261123ee1";
+import { createArtOrbs } from "./artefacts.js?v=20261123ee1";
+import { clearBossArenaDecor } from "./boss-core.js?v=20261123ee1";
+import { tryOpenDoor } from "./door.js?v=20261123ee1";
+import { showFloat } from "./feedback.js?v=20261123ee1";
+import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261123ee1";
+import { applyBackground, bgKeyForLevel, prefetchBackgrounds } from "./map.js?v=20261123ee1";
+import { saveGame } from "./overlays.js?v=20261123ee1";
+import { setCrouchHitbox, snapPlayerToGround } from "./rooms.js?v=20261123ee1";
+import { _doorWatchdogTimer, _landingCheckTimer, awaitingQuiz, bossExtremoAllies, bossState, bossTimers, currentLevel, currentLevelTip, decorativePipes, difficulty, door, doorOverlap, enemyTimers, getDifficulty, getMaxLives, getVillainJumpIntervalMult, getVillainSpeedMult, heartsGfx, hudText, invuln, isItemVisibleInDificil, isReducibleItemKind, isStarAllowedExtremo, itemCountText, itemsCollected, itemsGroup, itemsTotal, lives, malwareGroup, pipeExitDecor, pipes, platforms, player, playerName, playerNameHUD, powerHaloGfx, powerIndicator, powered, progressFill, resetPipeWarpState, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__pendingEntranceReveal, set_awaitingQuiz, set_bossExtremoAllies, set_bossTimers, set_collectedItemIndices, set_collectedRoomPipes, set_controlsInvertedUntil, set_currentLevel, set_currentLevelTip, set_decorativePipes, set_door, set_doorOverlap, set_enemyTimers, set_extraShieldCounted, set_inSecretRoom, set_invuln, set_isCrouching, set_itemsCollected, set_itemsTotal, set_livesLostThisLevel, set_pipeExitDecor, set_pipes, set_secretRoomHidden, set_secretRoomReturn, set_secretRoomTemp, shadowGfx, tipText, touch } from "./state.js?v=20261123ee1";
+import { clearHazards, clearMovingPlatforms, clearPipeHintSign, clearSecretSigns, clearSecrets, clearTrampolines, difficultyFactor, spawnBalloons, spawnCritters, spawnHazards, spawnLevelSign, spawnMovingPlatforms, spawnPipeHintSign, spawnSecrets, spawnShields, spawnTrampolines } from "./world.js?v=20261123ee1";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261123ee1";
+import { resetLevelStarTracking } from "../stars.js?v=20261123ee1";
+import { makePlatformTextureThemed, makePipeTexture } from "../textures.js?v=20261123ee1";
+import { spawnPlatformDecor, resetDoorGlow } from "../background.js?v=20261123ee1";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261123ee1";
 
 // ===== Carregar nível =====
 
@@ -483,17 +483,22 @@ function spawnVilao(scene, x, y, vx, df, pattern="patrol", bounds=null) {
   const keys = ["vilao_round","vilao_spike","vilao_bug"];
   const key = keyMap[pattern] || keys[Math.floor(Math.random()*keys.length)];
 
-  const v = malwareGroup.create(x, y, key);
+  const hasWalk = scene.textures.exists(key + "_w0");
+  const v = malwareGroup.create(x, y, hasWalk ? key + "_w0" : key);
   v.setCollideWorldBounds(true);
   v.setBounce(0);
-  // Tamanho distinto por tipo: mini=pequeno, patrol=médio, jumper=grande
-  if (pattern === "mini") {
-    v.setDisplaySize(36, 36); v.body.setSize(34, 34, true);
-  } else if (pattern === "jumper") {
-    v.setDisplaySize(58, 58); v.body.setSize(54, 54, true);
-  } else {
-    v.setDisplaySize(48, 48); v.body.setSize(48, 48, true);
-  }
+  // Tamanho distinto por tipo: mini=pequeno, patrol=médio, jumper=grande.
+  // O corpo físico é alinhado com a BASE do desenho (y=56 de 64 na textura,
+  // onde estão os pés e a sombra), para o vilão pisar mesmo no chão em vez
+  // de flutuar ou ficar enterrado.
+  // setSize/setOffset usam píxeis da textura (não do ecrã).
+  const bodyW = pattern === "mini" ? 34 : (pattern === "jumper" ? 54 : 48);
+  const bodyH = pattern === "mini" ? 34 : (pattern === "jumper" ? 54 : 48);
+  const disp  = pattern === "mini" ? 36 : (pattern === "jumper" ? 58 : 48);
+  v.setDisplaySize(disp, disp);
+  v.body.setSize(bodyW, bodyH, false);
+  v.body.setOffset((64 - bodyW) / 2, 56 - bodyH);
+  if (hasWalk) { v.setData("walkKey", key); v.setData("walkPhase", Math.random() * 6); }
   v.setDepth(2);
   v.setData("pattern", pattern);
   v.setData("originX", x);
@@ -593,27 +598,9 @@ function spawnVilao(scene, x, y, vx, df, pattern="patrol", bounds=null) {
   });
   enemyTimers.push(stuckTimer);
 
-  // Animações visuais
-  if (pattern === "mini") {
-    // Rotação lenta + pulsação suave — menos ameaçador
-    scene.tweens.add({targets:v, angle:{from:-8,to:8},
-      duration:1100+Math.random()*400, yoyo:true, repeat:-1, ease:"Sine.easeInOut"});
-    scene.tweens.add({targets:v, scaleX:{from:0.92,to:1.08}, scaleY:{from:1.08,to:0.92},
-      duration:900+Math.random()*300, yoyo:true, repeat:-1, ease:"Sine.easeInOut"});
-
-  } else if (pattern === "patrol") {
-    scene.tweens.add({targets:v, angle:{from:-6,to:6},
-      duration:700+Math.random()*300, yoyo:true, repeat:-1, ease:"Sine.easeInOut"});
-    scene.tweens.add({targets:v, scaleX:{from:1.0,to:1.15}, scaleY:{from:1.0,to:1.15},
-      duration:500+Math.random()*200, yoyo:true, repeat:-1, ease:"Sine.easeInOut"});
-
-  } else if (pattern === "jumper") {
-    scene.tweens.add({targets:v, angle:{from:-12,to:12},
-      duration:320+Math.random()*160, yoyo:true, repeat:-1, ease:"Sine.easeInOut"});
-    scene.tweens.add({targets:v, scaleX:{from:0.95,to:1.20}, scaleY:{from:1.20,to:0.95},
-      duration:380+Math.random()*120, yoyo:true, repeat:-1, ease:"Sine.easeInOut"});
-
-  }
+  // Animações visuais: a caminhada (pés, balanço) é feita em updateMalware()
+  // (scene.js). Antes havia aqui tweens de rotação/escala e o vilão girava
+  // sem parar no ar — por isso não parecia andar no chão.
 }
 
 // ===== Drone hostil — inimigo aéreo do Difícil/Extremo =====

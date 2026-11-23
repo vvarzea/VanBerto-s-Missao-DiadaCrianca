@@ -1,4 +1,4 @@
-import { buildBossArt } from "./game/boss-art.js?v=20261118dd2";
+import { buildBossArt } from "./game/boss-art.js?v=20261123ee1";
 // ===== Geração de texturas Phaser/canvas — VanBerto's =====
 // Extraído de dia-crianca.js. Ficheiro 100% autocontido: cada função só
 // depende do parâmetro `scene` (instância Phaser) e de constantes locais.
@@ -293,7 +293,6 @@ function makeVilaosTextures(scene){
   // 1) Sombra — mancha escura com «pingos» em baixo e olhos amarelos a brilhar
   if(!scene.textures.exists("vilao_round")){
     const tex=scene.textures.createCanvas("vilao_round",64,64), ctx=tex.getContext(); const cx=32,cy=30;
-    ctx.fillStyle="rgba(0,0,0,0.22)"; ctx.beginPath(); ctx.ellipse(cx,cy+27,20,5,0,0,Math.PI*2); ctx.fill();
     const blob=()=>{ctx.beginPath(); ctx.moveTo(cx-22,cy+4); ctx.arc(cx,cy+4,22,Math.PI,0); ctx.lineTo(cx+22,cy+16);
       for(let i=0;i<4;i++){const x2=cx+22-11*(i+1); ctx.quadraticCurveTo(cx+22-11*i-5.5,cy+30,x2,cy+16);} ctx.closePath();};
     ctx.shadowColor="rgba(120,90,255,0.65)"; ctx.shadowBlur=10; ctx.strokeStyle="rgba(255,255,255,0.9)"; ctx.lineWidth=4.5; blob(); ctx.stroke(); ctx.shadowBlur=0;
@@ -308,7 +307,6 @@ function makeVilaosTextures(scene){
   // 2) Espinho — bola de espinhos roxa e carrancuda
   if(!scene.textures.exists("vilao_spike")){
     const tex=scene.textures.createCanvas("vilao_spike",64,64), ctx=tex.getContext(); const cx=32,cy=32;
-    ctx.fillStyle="rgba(0,0,0,0.22)"; ctx.beginPath(); ctx.ellipse(cx,cy+27,20,5,0,0,Math.PI*2); ctx.fill();
     const spikes=()=>{ctx.beginPath(); for(let i=0;i<12;i++){const a=i*Math.PI/6, w=0.2; ctx.moveTo(cx+Math.cos(a-w)*17,cy+Math.sin(a-w)*17); ctx.lineTo(cx+Math.cos(a)*28,cy+Math.sin(a)*28); ctx.lineTo(cx+Math.cos(a+w)*17,cy+Math.sin(a+w)*17); ctx.closePath();}};
     ctx.shadowColor="rgba(190,90,255,0.6)"; ctx.shadowBlur=10; ctx.strokeStyle="rgba(255,255,255,0.9)"; ctx.lineWidth=4; spikes(); ctx.stroke(); ctx.shadowBlur=0;
     ctx.fillStyle="#3d2d63"; spikes(); ctx.fill(); ctx.strokeStyle="#1a1030"; ctx.lineWidth=1.6; ctx.stroke();
@@ -322,7 +320,6 @@ function makeVilaosTextures(scene){
   // 3) Bicho da Indiferença — escaravelho cinzento, de pálpebras descaídas, que nem quer saber
   if(!scene.textures.exists("vilao_bug")){
     const tex=scene.textures.createCanvas("vilao_bug",64,64), ctx=tex.getContext(); const cx=32;
-    ctx.fillStyle="rgba(0,0,0,0.22)"; ctx.beginPath(); ctx.ellipse(cx,58,22,5,0,0,Math.PI*2); ctx.fill();
     ctx.strokeStyle="#2b2a38"; ctx.lineWidth=3; ctx.lineCap="round";
     [-17,-9,-1].forEach(x=>{ctx.beginPath(); ctx.moveTo(cx+x-2,44); ctx.lineTo(cx+x-8,56); ctx.stroke(); ctx.beginPath(); ctx.moveTo(cx-x+2,44); ctx.lineTo(cx-x+8,56); ctx.stroke();});
     ctx.beginPath(); ctx.moveTo(cx-6,13); ctx.lineTo(cx-12,5); ctx.moveTo(cx+6,13); ctx.lineTo(cx+12,5); ctx.stroke();
@@ -345,6 +342,34 @@ function makeVilaosTextures(scene){
     ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(cx-5,30); ctx.lineTo(cx+5,29); ctx.stroke();
     tex.refresh();
   }
+
+  // ── Frames de caminhada ──────────────────────────────────────────────
+  // Cada vilão ganha 2 frames (_w0/_w1): sombra FIXA no chão, corpo um pouco
+  // mais pequeno e dois pés que se alternam (um assenta, o outro levanta).
+  // A base do desenho fica no y=56 da textura, que é onde o corpo físico
+  // pousa (ver spawnVilao), por isso o vilão pisa mesmo no chão.
+  ["vilao_round","vilao_spike","vilao_bug"].forEach(base=>{
+    const src=scene.textures.get(base).getSourceImage();
+    [0,1].forEach(f=>{
+      const k=base+"_w"+f;
+      if(scene.textures.exists(k)) return;
+      const tex=scene.textures.createCanvas(k,64,64), ctx=tex.getContext();
+      // sombra no chão
+      ctx.fillStyle="rgba(0,0,0,0.26)"; ctx.beginPath(); ctx.ellipse(32,56.5,20,3.4,0,0,Math.PI*2); ctx.fill();
+      // pés
+      const foot=(x,lift)=>{
+        const y=52.5-lift;
+        ctx.fillStyle="#1b1530"; ctx.strokeStyle="rgba(255,255,255,0.85)"; ctx.lineWidth=1.6;
+        ctx.beginPath(); ctx.ellipse(x,y,8.5,4.4,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+        ctx.fillStyle="rgba(255,255,255,0.22)"; ctx.beginPath(); ctx.ellipse(x-2,y-1.6,3.6,1.4,0,0,Math.PI*2); ctx.fill();
+      };
+      foot(21+(f?2:-1), f?4:0);
+      foot(43+(f?1:-2), f?0:4);
+      // corpo (o frame 1 sobe 1px — «passo»)
+      ctx.drawImage(src,32-26,(f?0:1.5),52,52);
+      tex.refresh();
+    });
+  });
 } // fim makeVilaosTextures
 
 // ── Bosses — silhuetas próprias, uma por boss, para deixarem de ser o
@@ -1449,71 +1474,85 @@ function makeItemTextures(scene){
 
     tex.refresh();
   }
-  // Brinquedo — ursinho de peluche 🧸 completo (com pernas)
+  // Brinquedo — ursinho de peluche 🧸 (sentado, de frente, com laço vermelho)
   if(!scene.textures.exists("item_brinquedo")){
-    const tex=scene.textures.createCanvas("item_brinquedo",44,48), ctx=tex.getContext();
-    const C="#c07030", CL="#e8a860", CI="#e8905a", CD="#8b4a00";
+    const tex=scene.textures.createCanvas("item_brinquedo",56,62), ctx=tex.getContext();
+    const OL="#6e3510";                       // contorno castanho-escuro
+    const FUR_L="#f0bb7a", FUR="#d28a47", FUR_D="#b06a2e";
+    const CREAM="#fbe3b8", PAD="#f2a89a";
+    const part=(path,fill)=>{ ctx.beginPath(); path(); ctx.fillStyle=fill; ctx.fill(); ctx.strokeStyle=OL; ctx.lineWidth=1.7; ctx.lineJoin="round"; ctx.stroke(); };
+    const fur=(cx,cy,r)=>{ const g=ctx.createRadialGradient(cx-r*0.35,cy-r*0.4,r*0.1,cx,cy,r*1.15); g.addColorStop(0,FUR_L); g.addColorStop(0.55,FUR); g.addColorStop(1,FUR_D); return g; };
 
-    // --- PERNAS (atrás do corpo) ---
-    ctx.fillStyle=C;
-    ctx.beginPath(); ctx.ellipse(14,41,5,6,Math.PI*0.08,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(30,41,5,6,-Math.PI*0.08,0,Math.PI*2); ctx.fill();
-    // Patinhas
-    ctx.fillStyle=CI;
-    ctx.beginPath(); ctx.ellipse(14,46,5,3,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(30,46,5,3,0,0,Math.PI*2); ctx.fill();
+    // sombra no chão
+    ctx.fillStyle="rgba(0,0,0,0.18)"; ctx.beginPath(); ctx.ellipse(28,58.5,19,3,0,0,Math.PI*2); ctx.fill();
 
-    // --- CORPO ---
-    const bodyGr=ctx.createRadialGradient(19,28,2,22,28,14);
-    bodyGr.addColorStop(0,CL); bodyGr.addColorStop(1,C);
-    ctx.beginPath(); ctx.ellipse(22,29,13,12,0,0,Math.PI*2); ctx.fillStyle=bodyGr; ctx.fill();
-    // Barriga clara
-    ctx.beginPath(); ctx.ellipse(22,31,7,6,0,0,Math.PI*2); ctx.fillStyle="rgba(255,220,160,0.75)"; ctx.fill();
+    // pés (sentado, pernas à frente)
+    [[16.5,-0.12],[39.5,0.12]].forEach(([x,r])=>{
+      part(()=>ctx.ellipse(x,51.5,9,7,r,0,Math.PI*2), fur(x,51.5,9));
+      ctx.fillStyle=PAD; ctx.beginPath(); ctx.ellipse(x,53,5,3.6,0,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle="#fff"; ctx.globalAlpha=0.5; ctx.beginPath(); ctx.arc(x-1.5,52.4,1,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
+    });
 
-    // --- BRAÇOS ---
-    ctx.fillStyle=C;
-    ctx.beginPath(); ctx.ellipse(10,27,4,6,Math.PI*0.2,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(34,27,4,6,-Math.PI*0.2,0,Math.PI*2); ctx.fill();
-    // Mãozinhas
-    ctx.fillStyle=CI;
-    ctx.beginPath(); ctx.arc(8,31,3.5,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(36,31,3.5,0,Math.PI*2); ctx.fill();
+    // corpo
+    part(()=>ctx.ellipse(28,40,15.5,15,0,0,Math.PI*2), fur(28,40,15.5));
+    // barriga
+    ctx.beginPath(); ctx.ellipse(28,42.5,9.5,9.5,0,0,Math.PI*2); ctx.fillStyle=CREAM; ctx.fill();
+    ctx.strokeStyle="rgba(110,53,16,0.35)"; ctx.lineWidth=1.1; ctx.stroke();
+    // remendo em coração na barriga
+    ctx.fillStyle="#ff6f8f"; ctx.beginPath();
+    ctx.moveTo(28,47); ctx.bezierCurveTo(21.5,42.5,23.5,38.5,28,41.4); ctx.bezierCurveTo(32.5,38.5,34.5,42.5,28,47); ctx.fill();
+    ctx.strokeStyle="rgba(255,255,255,0.8)"; ctx.setLineDash([1.6,1.6]); ctx.lineWidth=0.9; ctx.stroke(); ctx.setLineDash([]);
 
-    // --- CABEÇA ---
-    const headGr=ctx.createRadialGradient(19,15,2,22,16,11);
-    headGr.addColorStop(0,CL); headGr.addColorStop(1,C);
-    ctx.beginPath(); ctx.arc(22,16,11,0,Math.PI*2); ctx.fillStyle=headGr; ctx.fill();
+    // braços (ligeiramente levantados)
+    [[11.5,38,0.55,-1],[44.5,38,-0.55,1]].forEach(([x,y,r])=>{
+      part(()=>ctx.ellipse(x,y,5.6,9,r,0,Math.PI*2), fur(x,y,9));
+    });
+    ctx.fillStyle=PAD;
+    ctx.beginPath(); ctx.arc(8.3,45.2,2.6,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(47.7,45.2,2.6,0,Math.PI*2); ctx.fill();
 
-    // Orelhas
-    ctx.fillStyle=C;
-    ctx.beginPath(); ctx.arc(13,8,5.5,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(31,8,5.5,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle=CI;
-    ctx.beginPath(); ctx.arc(13,8,3,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(31,8,3,0,Math.PI*2); ctx.fill();
+    // orelhas (atrás da cabeça)
+    [[14.5,9],[41.5,9]].forEach(([x,y])=>{
+      part(()=>ctx.arc(x,y,7,0,Math.PI*2), fur(x,y,7));
+      ctx.fillStyle=PAD; ctx.beginPath(); ctx.arc(x,y+0.3,3.9,0,Math.PI*2); ctx.fill();
+    });
 
-    // Focinho
-    ctx.beginPath(); ctx.ellipse(22,20,5.5,4,0,0,Math.PI*2); ctx.fillStyle="#d08050"; ctx.fill();
-    // Nariz
-    ctx.beginPath(); ctx.arc(22,17.5,2.5,0,Math.PI*2); ctx.fillStyle="#2a1000"; ctx.fill();
-    // Boca
-    ctx.strokeStyle="#2a1000"; ctx.lineWidth=1.5;
-    ctx.beginPath(); ctx.moveTo(19,21); ctx.quadraticCurveTo(22,24,25,21); ctx.stroke();
+    // cabeça
+    part(()=>ctx.arc(28,21,15.5,0,Math.PI*2), fur(28,21,15.5));
+    // brilho no pelo
+    ctx.fillStyle="rgba(255,255,255,0.28)"; ctx.beginPath(); ctx.ellipse(21,11.5,6,3,-0.5,0,Math.PI*2); ctx.fill();
 
-    // Olhos brilhantes
-    ctx.fillStyle="#2a1000";
-    ctx.beginPath(); ctx.arc(17,14,2.8,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(27,14,2.8,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle="#ffffff";
-    ctx.beginPath(); ctx.arc(18,13,1.1,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(28,13,1.1,0,Math.PI*2); ctx.fill();
+    // bochechas
+    ctx.fillStyle="rgba(255,105,115,0.45)";
+    ctx.beginPath(); ctx.ellipse(16.5,26,3.3,2.2,0,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(39.5,26,3.3,2.2,0,0,Math.PI*2); ctx.fill();
 
-    // Contornos suaves
-    ctx.strokeStyle=CD; ctx.lineWidth=1.3;
-    ctx.beginPath(); ctx.arc(22,16,11,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath(); ctx.ellipse(22,29,13,12,0,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath(); ctx.ellipse(14,41,5,6,Math.PI*0.08,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath(); ctx.ellipse(30,41,5,6,-Math.PI*0.08,0,Math.PI*2); ctx.stroke();
+    // focinho
+    ctx.beginPath(); ctx.ellipse(28,26.5,8,6.2,0,0,Math.PI*2); ctx.fillStyle=CREAM; ctx.fill();
+    ctx.strokeStyle="rgba(110,53,16,0.55)"; ctx.lineWidth=1.2; ctx.stroke();
+    // nariz
+    ctx.fillStyle="#3a1a08"; ctx.beginPath();
+    ctx.moveTo(24.6,23.6); ctx.quadraticCurveTo(28,21.8,31.4,23.6); ctx.quadraticCurveTo(30.6,27,28,27.4); ctx.quadraticCurveTo(25.4,27,24.6,23.6); ctx.fill();
+    ctx.fillStyle="rgba(255,255,255,0.7)"; ctx.beginPath(); ctx.ellipse(26.8,23.7,1.3,0.7,-0.3,0,Math.PI*2); ctx.fill();
+    // boca sorridente
+    ctx.strokeStyle="#3a1a08"; ctx.lineWidth=1.5; ctx.lineCap="round";
+    ctx.beginPath(); ctx.moveTo(28,27.4); ctx.lineTo(28,29);
+    ctx.moveTo(28,29); ctx.quadraticCurveTo(25.8,31.2,23.6,29.2);
+    ctx.moveTo(28,29); ctx.quadraticCurveTo(30.2,31.2,32.4,29.2); ctx.stroke();
+
+    // olhos
+    [[21,18.5],[35,18.5]].forEach(([x,y])=>{
+      ctx.fillStyle="#2a1000"; ctx.beginPath(); ctx.ellipse(x,y,3.1,3.5,0,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(x+1,y-1.3,1.25,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(x-1,y+1.2,0.55,0,Math.PI*2); ctx.fill();
+    });
+
+    // laço vermelho
+    const bow=(dir)=>{ ctx.beginPath(); ctx.moveTo(28,36.5); ctx.quadraticCurveTo(28+dir*8,30.5,28+dir*11,34.5); ctx.quadraticCurveTo(28+dir*11,39.5,28,36.5); ctx.closePath();
+      ctx.fillStyle="#e8344e"; ctx.fill(); ctx.strokeStyle="#8c1228"; ctx.lineWidth=1.3; ctx.stroke(); };
+    bow(-1); bow(1);
+    ctx.fillStyle="#ff6b82"; ctx.beginPath(); ctx.ellipse(28,36.5,2.9,2.7,0,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle="#8c1228"; ctx.lineWidth=1.3; ctx.stroke();
     tex.refresh();
   }
   // Escudo — canvas 52×58, forma classica de escudo heraldico
