@@ -1,4 +1,4 @@
-import { buildBossArt } from "./game/boss-art.js?v=20261123ff2";
+import { buildBossArt } from "./game/boss-art.js?v=20261123gg1";
 // ===== Geração de texturas Phaser/canvas — VanBerto's =====
 // Extraído de dia-crianca.js. Ficheiro 100% autocontido: cada função só
 // depende do parâmetro `scene` (instância Phaser) e de constantes locais.
@@ -102,6 +102,118 @@ export function makePlatformTextureThemed(scene, key, themeIdx){
   // Realce lateral esquerdo (efeito 3D)
   g.lineStyle(1.5,light,0.28); g.beginPath(); g.moveTo(2,6); g.lineTo(2,22); g.strokePath();
   g.generateTexture(key,100,32); g.destroy();
+}
+
+
+// ===== Plataformas por mundo (v20) =====
+// Em vez de esticar uma barra azul de 100px, cada plataforma ganha uma textura do
+// seu tamanho real (w×h), no estilo do mundo onde está: relva+pedra (Origens),
+// blocos de brincar+madeira (Desenvolvimento), tronco com musgo (Proteção) e
+// painel metálico com néon (Participação). A textura tem exatamente o tamanho do
+// corpo físico, por isso a colisão não muda.
+let _platWorld = "origens";
+export function setPlatformWorld(id){ _platWorld = id || "origens"; }
+export function getPlatformWorld(){ return _platWorld; }
+export function platformWorldFromBg(bgKey){
+  const k = String(bgKey||"");
+  if(k.includes("desenvolvimento")) return "desenvolvimento";
+  if(k.includes("protecao"))        return "protecao";
+  if(k.includes("participacao"))    return "participacao";
+  return "origens";
+}
+function seededRnd(seed){ let s=(seed>>>0)||1; return ()=>((s=(s*1664525+1013904223)>>>0)/4294967296); }
+const PLAT_OUTLINE = { origens:"#5b3a1c", desenvolvimento:"#6b3a10", protecao:"#35200e", participacao:"#131a3a" };
+const PLAT_DRAW = {
+  origens(c,w,h,rnd){
+    const t=Math.round(h*0.45);
+    let g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,"#e6c796"); g.addColorStop(1,"#b58654");
+    c.fillStyle=g; c.fillRect(0,0,w,h);
+    // blocos de pedra
+    c.strokeStyle="rgba(110,70,35,0.55)"; c.lineWidth=1.2;
+    const rows = (h-t)>=13 ? 2 : 1, bh=(h-t)/rows;
+    for(let r=0;r<rows;r++){
+      const y0=t+r*bh; c.beginPath(); c.moveTo(0,y0); c.lineTo(w,y0); c.stroke();
+      for(let x=(r%2)*17+12;x<w;x+=34){ c.beginPath(); c.moveTo(x,y0); c.lineTo(x,y0+bh); c.stroke(); }
+    }
+    c.fillStyle="rgba(255,255,255,0.18)"; for(let x=6;x<w;x+=34){ c.fillRect(x,t+2,10,2); }
+    // relva
+    c.fillStyle="#5fc83f";
+    for(let x=-2;x<w+6;x+=8){ c.beginPath(); c.arc(x,t,5.2,0,Math.PI*2); c.fill(); }
+    g=c.createLinearGradient(0,0,0,t+5); g.addColorStop(0,"#8be85a"); g.addColorStop(1,"#3f9a2e");
+    c.fillStyle=g; c.fillRect(0,0,w,t);
+    c.fillStyle="#3f9a2e"; for(let x=-2;x<w+6;x+=8){ c.beginPath(); c.arc(x,t,5.2,0,Math.PI); c.fill(); }
+    c.fillStyle="rgba(255,255,255,0.4)"; c.fillRect(0,1,w,2);
+    // florzinhas
+    const cols=["#ffffff","#ff8fb3","#ffd84a"];
+    for(let x=18+rnd()*30;x<w-8;x+=44+rnd()*50){ c.fillStyle=cols[Math.floor(rnd()*3)]; c.beginPath(); c.arc(x,t*0.5,1.9,0,Math.PI*2); c.fill(); }
+  },
+  desenvolvimento(c,w,h,rnd){
+    const t=Math.round(h*0.42);
+    let g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,"#f3bb63"); g.addColorStop(1,"#c27428");
+    c.fillStyle=g; c.fillRect(0,0,w,h);
+    // veios da madeira
+    c.strokeStyle="rgba(110,55,10,0.28)"; c.lineWidth=1;
+    for(let i=0;i<Math.max(6,w/18);i++){ const y=t+2+rnd()*(h-t-3), x=rnd()*w, l=14+rnd()*40; c.beginPath(); c.moveTo(x,y); c.lineTo(x+l,y+(rnd()-0.5)*1.5); c.stroke(); }
+    // juntas das tábuas + parafusos
+    for(let x=60;x<w;x+=60){ c.strokeStyle="rgba(90,45,5,0.5)"; c.lineWidth=1.3; c.beginPath(); c.moveTo(x,t); c.lineTo(x,h); c.stroke();
+      c.fillStyle="#7a4a1f"; c.beginPath(); c.arc(x-6,t+(h-t)/2,1.7,0,Math.PI*2); c.fill();
+      c.fillStyle="#7a4a1f"; c.beginPath(); c.arc(x+6,t+(h-t)/2,1.7,0,Math.PI*2); c.fill(); }
+    // topo: blocos de brincar coloridos
+    const bc=["#ff5d5d","#4da3ff","#ffd23f","#46c46a"], bw=26;
+    for(let i=0,x=0;x<w;i++,x+=bw){ c.fillStyle=bc[i%4]; c.fillRect(x,0,bw,t);
+      c.fillStyle="rgba(255,255,255,0.38)"; c.fillRect(x,1,bw,2.5);
+      c.fillStyle="rgba(0,0,0,0.18)"; c.fillRect(x,t-2,bw,2);
+      c.strokeStyle="rgba(0,0,0,0.28)"; c.lineWidth=1; c.beginPath(); c.moveTo(x+0.5,0); c.lineTo(x+0.5,t); c.stroke(); }
+  },
+  protecao(c,w,h,rnd){
+    const t=Math.round(h*0.42);
+    let g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,"#a47040"); g.addColorStop(1,"#68421f");
+    c.fillStyle=g; c.fillRect(0,0,w,h);
+    // casca do tronco
+    c.strokeStyle="rgba(45,22,8,0.5)"; c.lineWidth=1.3; c.lineCap="round";
+    for(let i=0;i<Math.max(8,w/12);i++){ const x=rnd()*w, y=t+1+rnd()*(h-t-5), l=4+rnd()*(h-t)*0.6; c.beginPath(); c.moveTo(x,y); c.lineTo(x+(rnd()-0.5)*2,Math.min(h-1,y+l)); c.stroke(); }
+    c.fillStyle="rgba(255,225,170,0.14)"; for(let x=10;x<w;x+=46){ c.fillRect(x,t+2,16,2); }
+    // nós
+    for(let x=40+rnd()*40;x<w-20;x+=90+rnd()*90){ c.fillStyle="#4b2d14"; c.beginPath(); c.ellipse(x,t+(h-t)*0.55,4.2,3,0,0,Math.PI*2); c.fill();
+      c.strokeStyle="rgba(255,220,160,0.35)"; c.lineWidth=1; c.beginPath(); c.ellipse(x,t+(h-t)*0.55,2.2,1.4,0,0,Math.PI*2); c.stroke(); }
+    // musgo
+    g=c.createLinearGradient(0,0,0,t+6); g.addColorStop(0,"#86d44a"); g.addColorStop(1,"#3f8a2a");
+    c.fillStyle=g; c.fillRect(0,0,w,t);
+    for(let x=0;x<w+6;x+=5+rnd()*3){ const r=3+rnd()*3.2; c.fillStyle=rnd()<0.5?"#4f9d33":"#5fb53a"; c.beginPath(); c.arc(x,t,r,0,Math.PI); c.fill(); }
+    c.fillStyle="rgba(255,255,255,0.3)"; c.fillRect(0,1,w,2);
+    c.fillStyle="#b5ef7b"; for(let x=10+rnd()*20;x<w-6;x+=28+rnd()*30){ c.beginPath(); c.ellipse(x,t*0.45,3,1.5,-0.5,0,Math.PI*2); c.fill(); }
+  },
+  participacao(c,w,h,rnd){
+    const t=Math.max(5,Math.round(h*0.34));
+    let g=c.createLinearGradient(0,0,0,h); g.addColorStop(0,"#566aa8"); g.addColorStop(1,"#222a55");
+    c.fillStyle=g; c.fillRect(0,0,w,h);
+    // painéis
+    for(let x=48;x<w;x+=48){ c.fillStyle="rgba(0,0,0,0.25)"; c.fillRect(x,t,1.5,h-t); c.fillStyle="rgba(255,255,255,0.12)"; c.fillRect(x+1.5,t,1,h-t);
+      c.fillStyle="#c3cdff"; c.beginPath(); c.arc(x-7,t+(h-t)*0.5,1.4,0,Math.PI*2); c.fill(); c.beginPath(); c.arc(x+8,t+(h-t)*0.5,1.4,0,Math.PI*2); c.fill(); }
+    // luzinhas
+    for(let x=24;x<w;x+=96){ c.fillStyle="#ffd84a"; c.beginPath(); c.arc(x,t+(h-t)*0.5,2,0,Math.PI*2); c.fill(); c.fillStyle="rgba(255,216,74,0.35)"; c.beginPath(); c.arc(x,t+(h-t)*0.5,4,0,Math.PI*2); c.fill(); }
+    // faixa de néon no topo
+    g=c.createLinearGradient(0,0,0,t); g.addColorStop(0,"#b8f4ff"); g.addColorStop(0.5,"#5be3ff"); g.addColorStop(1,"#2aa4d8");
+    c.fillStyle=g; c.fillRect(0,0,w,t);
+    c.fillStyle="rgba(255,255,255,0.65)"; c.fillRect(0,1,w,1.6);
+    c.fillStyle="rgba(91,227,255,0.28)"; c.fillRect(0,t,w,3);
+    // aresta dourada em baixo
+    c.fillStyle="#f5c542"; c.fillRect(0,h-3,w,3);
+  }
+};
+export function makeWorldPlatformTexture(scene, world, w, h){
+  w=Math.max(8,Math.round(w)); h=Math.max(8,Math.round(h));
+  const wd = PLAT_DRAW[world] ? world : "origens";
+  const key=`pw_${wd}_${w}x${h}`;
+  if(scene.textures.exists(key)) return key;
+  const tex=scene.textures.createCanvas(key,w,h), c=tex.getContext();
+  const rnd=seededRnd(w*31+h*7), R=Math.min(7,h/3);
+  c.save(); rrPath(c,0.5,0.5,w-1,h-1,R); c.clip();
+  PLAT_DRAW[wd](c,w,h,rnd);
+  c.restore();
+  rrPath(c,1.2,1.2,w-2.4,h-2.4,R); c.lineWidth=2.4; c.strokeStyle=PLAT_OUTLINE[wd]; c.stroke();
+  tex.refresh();
+  return key;
 }
 
 // Portal de Estrela — fim do nível muito mais apelativo que uma porta

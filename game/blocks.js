@@ -12,14 +12,14 @@
  * escondidos nas salas secretas, sem mexer nesses sistemas.
  *************************************************/
 
-import { platforms, itemsGroup, player, powered, starPower, lives, set_lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261123ff2";
-import { showFloat } from "./feedback.js?v=20261123ff2";
-import { makePlatformTextureThemed } from "../textures.js?v=20261123ff2";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261123ff2";
-import { THEMES } from "../data-levels.js?v=20261123ff2";
-import { onHitMalware } from "./items.js?v=20261123ff2";
-import { updateHearts } from "./level.js?v=20261123ff2";
-import { loadNamespace, saveNamespace } from "../storage.js?v=20261123ff2";
+import { platforms, itemsGroup, player, powered, starPower, lives, set_lives, getMaxLives, score, set_score, scoreText, set__hudDirty, difficulty } from "./state.js?v=20261123gg1";
+import { showFloat } from "./feedback.js?v=20261123gg1";
+import { makePlatformTextureThemed, makeWorldPlatformTexture, getPlatformWorld } from "../textures.js?v=20261123gg1";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261123gg1";
+import { THEMES } from "../data-levels.js?v=20261123gg1";
+import { onHitMalware } from "./items.js?v=20261123gg1";
+import { updateHearts } from "./level.js?v=20261123gg1";
+import { loadNamespace, saveNamespace } from "../storage.js?v=20261123gg1";
 
 const BLOCK = 40;
 let windVx = 0;
@@ -419,7 +419,7 @@ export function addBlocksAndPlatforms(scene, L, idx) {
     const ground = anchors.find(a => a.t >= 430 && cx - PW / 2 - 20 >= a.l && cx + PW / 2 + 20 <= a.r);
     if (!ground) continue;
     if (hits(cx - PW / 2 - 30, cx + PW / 2 + 30, 190, 425, ground, 430)) continue;
-    const plat = platforms.create(cx, PY, platKey);
+    const plat = platforms.create(cx, PY, makeWorldPlatformTexture(scene, getPlatformWorld(), PW, 22));
     plat.displayWidth = PW; plat.displayHeight = 22; plat.refreshBody(); plat.setData("extra", true);
     if (plat.body) { plat.body.checkCollision.left = false; plat.body.checkCollision.right = false; }
     layRow(cx, TOP - 154, rnd() < 0.5 ? ["q"] : ["brick", "q"]);

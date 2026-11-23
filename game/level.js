@@ -7,22 +7,22 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { addBlocksAndPlatforms } from "./blocks.js?v=20261123ff2";
-import { createArtOrbs } from "./artefacts.js?v=20261123ff2";
-import { clearBossArenaDecor } from "./boss-core.js?v=20261123ff2";
-import { tryOpenDoor } from "./door.js?v=20261123ff2";
-import { showFloat } from "./feedback.js?v=20261123ff2";
-import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261123ff2";
-import { applyBackground, bgKeyForLevel, prefetchBackgrounds } from "./map.js?v=20261123ff2";
-import { saveGame } from "./overlays.js?v=20261123ff2";
-import { setCrouchHitbox, snapPlayerToGround } from "./rooms.js?v=20261123ff2";
-import { _doorWatchdogTimer, _landingCheckTimer, awaitingQuiz, bossExtremoAllies, bossState, bossTimers, currentLevel, currentLevelTip, decorativePipes, difficulty, door, doorOverlap, enemyTimers, getDifficulty, getMaxLives, getVillainJumpIntervalMult, getVillainSpeedMult, heartsGfx, hudText, invuln, isItemVisibleInDificil, isReducibleItemKind, isStarAllowedExtremo, itemCountText, itemsCollected, itemsGroup, itemsTotal, lives, malwareGroup, pipeExitDecor, pipes, platforms, player, playerName, playerNameHUD, powerHaloGfx, powerIndicator, powered, progressFill, resetPipeWarpState, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__pendingEntranceReveal, set_awaitingQuiz, set_bossExtremoAllies, set_bossTimers, set_collectedItemIndices, set_collectedRoomPipes, set_controlsInvertedUntil, set_currentLevel, set_currentLevelTip, set_decorativePipes, set_door, set_doorOverlap, set_enemyTimers, set_extraShieldCounted, set_inSecretRoom, set_invuln, set_isCrouching, set_itemsCollected, set_itemsTotal, set_livesLostThisLevel, set_pipeExitDecor, set_pipes, set_secretRoomHidden, set_secretRoomReturn, set_secretRoomTemp, shadowGfx, tipText, touch } from "./state.js?v=20261123ff2";
-import { clearHazards, clearMovingPlatforms, clearPipeHintSign, clearSecretSigns, clearSecrets, clearTrampolines, difficultyFactor, spawnBalloons, spawnCritters, spawnHazards, spawnLevelSign, spawnMovingPlatforms, spawnPipeHintSign, spawnSecrets, spawnShields, spawnTrampolines } from "./world.js?v=20261123ff2";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261123ff2";
-import { resetLevelStarTracking } from "../stars.js?v=20261123ff2";
-import { makePlatformTextureThemed, makePipeTexture } from "../textures.js?v=20261123ff2";
-import { spawnPlatformDecor, resetDoorGlow } from "../background.js?v=20261123ff2";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261123ff2";
+import { addBlocksAndPlatforms } from "./blocks.js?v=20261123gg1";
+import { createArtOrbs } from "./artefacts.js?v=20261123gg1";
+import { clearBossArenaDecor } from "./boss-core.js?v=20261123gg1";
+import { tryOpenDoor } from "./door.js?v=20261123gg1";
+import { showFloat } from "./feedback.js?v=20261123gg1";
+import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261123gg1";
+import { applyBackground, bgKeyForLevel, prefetchBackgrounds } from "./map.js?v=20261123gg1";
+import { saveGame } from "./overlays.js?v=20261123gg1";
+import { setCrouchHitbox, snapPlayerToGround } from "./rooms.js?v=20261123gg1";
+import { _doorWatchdogTimer, _landingCheckTimer, awaitingQuiz, bossExtremoAllies, bossState, bossTimers, currentLevel, currentLevelTip, decorativePipes, difficulty, door, doorOverlap, enemyTimers, getDifficulty, getMaxLives, getVillainJumpIntervalMult, getVillainSpeedMult, heartsGfx, hudText, invuln, isItemVisibleInDificil, isReducibleItemKind, isStarAllowedExtremo, itemCountText, itemsCollected, itemsGroup, itemsTotal, lives, malwareGroup, pipeExitDecor, pipes, platforms, player, playerName, playerNameHUD, powerHaloGfx, powerIndicator, powered, progressFill, resetPipeWarpState, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__pendingEntranceReveal, set_awaitingQuiz, set_bossExtremoAllies, set_bossTimers, set_collectedItemIndices, set_collectedRoomPipes, set_controlsInvertedUntil, set_currentLevel, set_currentLevelTip, set_decorativePipes, set_door, set_doorOverlap, set_enemyTimers, set_extraShieldCounted, set_inSecretRoom, set_invuln, set_isCrouching, set_itemsCollected, set_itemsTotal, set_livesLostThisLevel, set_pipeExitDecor, set_pipes, set_secretRoomHidden, set_secretRoomReturn, set_secretRoomTemp, shadowGfx, tipText, touch } from "./state.js?v=20261123gg1";
+import { clearHazards, clearMovingPlatforms, clearPipeHintSign, clearSecretSigns, clearSecrets, clearTrampolines, difficultyFactor, spawnBalloons, spawnCritters, spawnHazards, spawnLevelSign, spawnMovingPlatforms, spawnPipeHintSign, spawnSecrets, spawnShields, spawnTrampolines } from "./world.js?v=20261123gg1";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261123gg1";
+import { resetLevelStarTracking } from "../stars.js?v=20261123gg1";
+import { makePlatformTextureThemed, makePipeTexture, makeWorldPlatformTexture, setPlatformWorld, platformWorldFromBg } from "../textures.js?v=20261123gg1";
+import { spawnPlatformDecor, resetDoorGlow } from "../background.js?v=20261123gg1";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261123gg1";
 
 // ===== Carregar nível =====
 
@@ -105,10 +105,11 @@ export function loadLevel(scene,idx){
   set__hudDirty(true); updateHUD(L); applyBackground(scene,L.theme%THEMES.length,L.worldW,L.hazards||[],bgKeyForLevel(idx));
   prefetchBackgrounds(scene, idx);
 
+  // Plataformas no estilo do mundo (ver makeWorldPlatformTexture em textures.js)
+  const platWorld = platformWorldFromBg(bgKeyForLevel(idx));
+  setPlatformWorld(platWorld);
   L.platforms.forEach(p=>{
-    const themeIdx = L.theme % THEMES.length;
-    const platKey = "platform_t"+themeIdx;
-    if(!scene.textures.exists(platKey)) makePlatformTextureThemed(scene, platKey, themeIdx);
+    const platKey = makeWorldPlatformTexture(scene, platWorld, p.w, p.h);
     const plat=platforms.create(p.x,p.y,platKey);
     plat.displayWidth=p.w; plat.displayHeight=p.h; plat.refreshBody();
     if(plat.body){plat.body.checkCollision.left=false;plat.body.checkCollision.right=false;}
