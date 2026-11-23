@@ -1,4 +1,4 @@
-import { buildBossArt } from "./game/boss-art.js?v=20261123gg1";
+import { buildBossArt } from "./game/boss-art.js?v=20261123hh1";
 // ===== Geração de texturas Phaser/canvas — VanBerto's =====
 // Extraído de dia-crianca.js. Ficheiro 100% autocontido: cada função só
 // depende do parâmetro `scene` (instância Phaser) e de constantes locais.
@@ -1433,38 +1433,33 @@ function makeSparkTexture(scene){
 function makeItemTextures(scene){
   // Estrela
   if(!scene.textures.exists("item_estrela")){
-    const tex=scene.textures.createCanvas("item_estrela",36,36), ctx=tex.getContext();
-    // Sombra escura por baixo para contraste com qualquer fundo
-    ctx.fillStyle="rgba(0,0,0,0.35)"; ctx.shadowColor="rgba(0,0,0,0.5)"; ctx.shadowBlur=6;
-    ctx.save(); ctx.translate(18,20);
-    ctx.beginPath();
-    for(let j=0;j<5;j++){
-      const o=Math.PI*2*j/5-Math.PI/2, i=o+Math.PI/5;
-      j===0?ctx.moveTo(Math.cos(o)*16,Math.sin(o)*16):ctx.lineTo(Math.cos(o)*16,Math.sin(o)*16);
-      ctx.lineTo(Math.cos(i)*7,Math.sin(i)*7);
-    }
-    ctx.closePath(); ctx.fill(); ctx.restore(); ctx.shadowBlur=0;
-    // Estrela principal
-    ctx.fillStyle="#ffd700"; ctx.shadowColor="#ff6b35"; ctx.shadowBlur=8;
-    ctx.save(); ctx.translate(18,18);
-    ctx.beginPath();
-    for(let j=0;j<5;j++){
-      const o=Math.PI*2*j/5-Math.PI/2, i=o+Math.PI/5;
-      j===0?ctx.moveTo(Math.cos(o)*16,Math.sin(o)*16):ctx.lineTo(Math.cos(o)*16,Math.sin(o)*16);
-      ctx.lineTo(Math.cos(i)*7,Math.sin(i)*7);
-    }
-    ctx.closePath(); ctx.fill();
-    // Contorno escuro
-    ctx.strokeStyle="rgba(100,60,0,0.7)"; ctx.lineWidth=2;
-    ctx.beginPath();
-    for(let j=0;j<5;j++){
-      const o=Math.PI*2*j/5-Math.PI/2, i=o+Math.PI/5;
-      j===0?ctx.moveTo(Math.cos(o)*16,Math.sin(o)*16):ctx.lineTo(Math.cos(o)*16,Math.sin(o)*16);
-      ctx.lineTo(Math.cos(i)*7,Math.sin(i)*7);
-    }
-    ctx.closePath(); ctx.stroke();
-    ctx.restore(); ctx.shadowBlur=0;
-    ctx.fillStyle="rgba(255,255,255,0.5)"; ctx.beginPath(); ctx.arc(13,11,4,0,Math.PI*2); ctx.fill();
+    // Estrela v20: 44×44, pontas arredondadas, gradiente dourado, facetas, brilho e carinha sorridente.
+    const S=44, tex=scene.textures.createCanvas("item_estrela",S,S), ctx=tex.getContext();
+    const cx=22, cy=23.5, RO=19, RI=9.2;
+    const pt=(k,r)=>{ const a=-Math.PI/2+k*Math.PI/5; return [cx+Math.cos(a)*r, cy+Math.sin(a)*r]; };
+    const starPath=()=>{ ctx.beginPath(); for(let k=0;k<10;k++){ const [x,y]=pt(k,k%2?RI:RO); k?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.closePath(); };
+    // brilho exterior + sombra
+    ctx.save(); ctx.shadowColor="rgba(255,150,30,0.85)"; ctx.shadowBlur=9;
+    ctx.lineJoin="round"; ctx.lineWidth=5; ctx.strokeStyle="#c47a00"; ctx.fillStyle="#ffc400"; starPath(); ctx.stroke(); ctx.fill(); ctx.restore();
+    // corpo com gradiente
+    const g=ctx.createLinearGradient(cx-16,cy-18,cx+14,cy+18); g.addColorStop(0,"#fff6a8"); g.addColorStop(0.45,"#ffd51f"); g.addColorStop(1,"#f29a00");
+    ctx.lineJoin="round"; ctx.fillStyle=g; starPath(); ctx.fill();
+    // facetas: metade de cada ponta mais escura
+    ctx.save(); starPath(); ctx.clip();
+    for(let k=0;k<5;k++){ const o=pt(2*k,RO), l=pt(2*k-1,RI), r=pt(2*k+1,RI);
+      ctx.fillStyle="rgba(190,100,0,0.20)"; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(o[0],o[1]); ctx.lineTo(r[0],r[1]); ctx.closePath(); ctx.fill();
+      ctx.fillStyle="rgba(255,255,255,0.22)"; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(o[0],o[1]); ctx.lineTo(l[0],l[1]); ctx.closePath(); ctx.fill(); }
+    ctx.restore();
+    // contorno
+    ctx.lineJoin="round"; ctx.lineWidth=2.4; ctx.strokeStyle="#a85f00"; starPath(); ctx.stroke();
+    // brilhos
+    ctx.fillStyle="rgba(255,255,255,0.75)"; ctx.beginPath(); ctx.ellipse(15.5,12.5,3.6,2,-0.7,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(30.5,9.5,1.1,0,Math.PI*2); ctx.fill();
+    // carinha
+    ctx.fillStyle="#5a3000"; ctx.beginPath(); ctx.ellipse(cx-4.4,cy-0.5,1.7,2.2,0,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.ellipse(cx+4.4,cy-0.5,1.7,2.2,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(cx-3.8,cy-1.3,0.65,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.arc(cx+5,cy-1.3,0.65,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle="#5a3000"; ctx.lineWidth=1.5; ctx.lineCap="round"; ctx.beginPath(); ctx.arc(cx,cy+3,3.2,0.25,Math.PI-0.25); ctx.stroke();
+    ctx.fillStyle="rgba(255,90,70,0.4)"; ctx.beginPath(); ctx.ellipse(cx-8,cy+3.2,2.4,1.5,0,0,Math.PI*2); ctx.fill(); ctx.beginPath(); ctx.ellipse(cx+8,cy+3.2,2.4,1.5,0,0,Math.PI*2); ctx.fill();
     tex.refresh();
   }
   // Balões 🎈 flutuantes — 6 cores
@@ -1740,42 +1735,37 @@ function makeItemTextures(scene){
   // Reaproveita a paleta dourada/brilhante do projétil "boss_proj_book", mas maior
   // e com mais detalhe (páginas abertas), para não parecer um projétil a voar.
   if(!scene.textures.exists("item_livro")){
-    const w=46,h=44,tex=scene.textures.createCanvas("item_livro",w,h), ctx=tex.getContext();
-    ctx.save(); ctx.translate(w/2,h/2+2);
-    ctx.shadowColor="rgba(255,220,80,0.75)"; ctx.shadowBlur=9;
-    // capa de trás (levemente rodada, dá volume ao livro aberto)
-    ctx.fillStyle="#c07a10";
-    ctx.beginPath(); ctx.ellipse(0,2,19,13,0,0,Math.PI*2); ctx.fill();
-    ctx.shadowBlur=0;
-    // página esquerda
-    const grL=ctx.createLinearGradient(-19,-10,0,10);
-    grL.addColorStop(0,"#fffdf0"); grL.addColorStop(1,"#ffe9a0");
-    ctx.fillStyle=grL;
-    ctx.beginPath();
-    ctx.moveTo(0,-11); ctx.quadraticCurveTo(-20,-14,-19,0); ctx.quadraticCurveTo(-20,14,0,11); ctx.closePath(); ctx.fill();
-    // página direita
-    const grR=ctx.createLinearGradient(0,-10,19,10);
-    grR.addColorStop(0,"#ffe9a0"); grR.addColorStop(1,"#fffdf0");
-    ctx.fillStyle=grR;
-    ctx.beginPath();
-    ctx.moveTo(0,-11); ctx.quadraticCurveTo(20,-14,19,0); ctx.quadraticCurveTo(20,14,0,11); ctx.closePath(); ctx.fill();
-    // lombada central
-    ctx.strokeStyle="#8a5200"; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(0,-11); ctx.lineTo(0,11); ctx.stroke();
-    // linhas de texto simuladas em cada página
-    ctx.strokeStyle="rgba(138,82,0,0.45)"; ctx.lineWidth=1;
-    for(let i=0;i<3;i++){
-      ctx.beginPath(); ctx.moveTo(-15,-5+i*5); ctx.lineTo(-3,-5+i*5); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(3,-5+i*5); ctx.lineTo(15,-5+i*5); ctx.stroke();
-    }
-    // contorno geral
-    ctx.strokeStyle="#8a5200"; ctx.lineWidth=1.6;
-    ctx.beginPath();
-    ctx.moveTo(0,-11); ctx.quadraticCurveTo(-20,-14,-19,0); ctx.quadraticCurveTo(-20,14,0,11);
-    ctx.quadraticCurveTo(20,14,19,0); ctx.quadraticCurveTo(20,-14,0,-11); ctx.stroke();
-    // brilho de "conhecimento" a saltar do livro
-    ctx.fillStyle="rgba(255,255,255,0.6)";
-    ctx.beginPath(); ctx.ellipse(-9,-8,3,2.2,Math.PI/4,0,Math.PI*2); ctx.fill();
+    // Livro v20: aberto, com capa azul, páginas com volume, texto colorido e fita vermelha.
+    const w=52,h=46,tex=scene.textures.createCanvas("item_livro",w,h), ctx=tex.getContext();
+    ctx.save(); ctx.translate(w/2,h/2+1);
+    ctx.shadowColor="rgba(255,220,80,0.8)"; ctx.shadowBlur=9;
+    // capa azul (maior que as páginas)
+    ctx.fillStyle="#2a62c9"; ctx.strokeStyle="#173a85"; ctx.lineWidth=1.8; ctx.lineJoin="round";
+    ctx.beginPath(); ctx.moveTo(-23,-9); ctx.quadraticCurveTo(-12,-14,0,-9); ctx.quadraticCurveTo(12,-14,23,-9); ctx.lineTo(23,14); ctx.quadraticCurveTo(12,10,0,15); ctx.quadraticCurveTo(-12,10,-23,14); ctx.closePath(); ctx.fill(); ctx.shadowBlur=0; ctx.stroke();
+    // bloco de páginas (camadas de baixo)
+    ctx.fillStyle="#e9d9a8";
+    ctx.beginPath(); ctx.moveTo(-20,-6); ctx.quadraticCurveTo(-10,-11,0,-6); ctx.quadraticCurveTo(10,-11,20,-6); ctx.lineTo(20,13); ctx.quadraticCurveTo(10,9,0,13.5); ctx.quadraticCurveTo(-10,9,-20,13); ctx.closePath(); ctx.fill();
+    // páginas da frente
+    const pg=(sx)=>{ const gr=ctx.createLinearGradient(0,0,sx*20,0); gr.addColorStop(0,"#fff0bd"); gr.addColorStop(1,"#fffdf2"); ctx.fillStyle=gr;
+      ctx.beginPath(); ctx.moveTo(0,-7); ctx.quadraticCurveTo(sx*10,-12,sx*20,-8); ctx.lineTo(sx*20,10); ctx.quadraticCurveTo(sx*10,6,0,11); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle="rgba(120,80,20,0.55)"; ctx.lineWidth=1; ctx.stroke(); };
+    pg(-1); pg(1);
+    // lombada
+    ctx.strokeStyle="#8a5200"; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(0,-7); ctx.lineTo(0,11); ctx.stroke();
+    // texto colorido
+    const lc=["#e0524d","#3b86e0","#3fae5c"];
+    for(let i=0;i<4;i++){ ctx.strokeStyle=lc[i%3]; ctx.globalAlpha=0.75; ctx.lineWidth=1.4; ctx.lineCap="round";
+      ctx.beginPath(); ctx.moveTo(-16,-3+i*3.7); ctx.lineTo(-4,-3.6+i*3.7); ctx.stroke();
+      if(i<2){ ctx.beginPath(); ctx.moveTo(4,-3+i*3.7); ctx.lineTo(16,-3.6+i*3.7); ctx.stroke(); } }
+    ctx.globalAlpha=1;
+    // estrelinha na página direita
+    ctx.fillStyle="#ffc400"; ctx.beginPath();
+    for(let k=0;k<10;k++){ const a=-Math.PI/2+k*Math.PI/5, r=k%2?2.1:4.6; const x=10+Math.cos(a)*r, y=5.4+Math.sin(a)*r; k?ctx.lineTo(x,y):ctx.moveTo(x,y); } ctx.closePath(); ctx.fill();
+    // fita vermelha
+    ctx.fillStyle="#e23b4a"; ctx.strokeStyle="#8f1624"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(-3,9); ctx.lineTo(-3,19); ctx.lineTo(-0.5,16.5); ctx.lineTo(2,19); ctx.lineTo(2,9); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // brilho
+    ctx.fillStyle="rgba(255,255,255,0.55)"; ctx.beginPath(); ctx.ellipse(-14,-9.5,4,1.6,-0.2,0,Math.PI*2); ctx.fill();
     ctx.restore();
     tex.refresh();
   }

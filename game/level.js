@@ -7,22 +7,22 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { addBlocksAndPlatforms } from "./blocks.js?v=20261123gg1";
-import { createArtOrbs } from "./artefacts.js?v=20261123gg1";
-import { clearBossArenaDecor } from "./boss-core.js?v=20261123gg1";
-import { tryOpenDoor } from "./door.js?v=20261123gg1";
-import { showFloat } from "./feedback.js?v=20261123gg1";
-import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261123gg1";
-import { applyBackground, bgKeyForLevel, prefetchBackgrounds } from "./map.js?v=20261123gg1";
-import { saveGame } from "./overlays.js?v=20261123gg1";
-import { setCrouchHitbox, snapPlayerToGround } from "./rooms.js?v=20261123gg1";
-import { _doorWatchdogTimer, _landingCheckTimer, awaitingQuiz, bossExtremoAllies, bossState, bossTimers, currentLevel, currentLevelTip, decorativePipes, difficulty, door, doorOverlap, enemyTimers, getDifficulty, getMaxLives, getVillainJumpIntervalMult, getVillainSpeedMult, heartsGfx, hudText, invuln, isItemVisibleInDificil, isReducibleItemKind, isStarAllowedExtremo, itemCountText, itemsCollected, itemsGroup, itemsTotal, lives, malwareGroup, pipeExitDecor, pipes, platforms, player, playerName, playerNameHUD, powerHaloGfx, powerIndicator, powered, progressFill, resetPipeWarpState, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__pendingEntranceReveal, set_awaitingQuiz, set_bossExtremoAllies, set_bossTimers, set_collectedItemIndices, set_collectedRoomPipes, set_controlsInvertedUntil, set_currentLevel, set_currentLevelTip, set_decorativePipes, set_door, set_doorOverlap, set_enemyTimers, set_extraShieldCounted, set_inSecretRoom, set_invuln, set_isCrouching, set_itemsCollected, set_itemsTotal, set_livesLostThisLevel, set_pipeExitDecor, set_pipes, set_secretRoomHidden, set_secretRoomReturn, set_secretRoomTemp, shadowGfx, tipText, touch } from "./state.js?v=20261123gg1";
-import { clearHazards, clearMovingPlatforms, clearPipeHintSign, clearSecretSigns, clearSecrets, clearTrampolines, difficultyFactor, spawnBalloons, spawnCritters, spawnHazards, spawnLevelSign, spawnMovingPlatforms, spawnPipeHintSign, spawnSecrets, spawnShields, spawnTrampolines } from "./world.js?v=20261123gg1";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261123gg1";
-import { resetLevelStarTracking } from "../stars.js?v=20261123gg1";
-import { makePlatformTextureThemed, makePipeTexture, makeWorldPlatformTexture, setPlatformWorld, platformWorldFromBg } from "../textures.js?v=20261123gg1";
-import { spawnPlatformDecor, resetDoorGlow } from "../background.js?v=20261123gg1";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261123gg1";
+import { addBlocksAndPlatforms } from "./blocks.js?v=20261123hh1";
+import { createArtOrbs } from "./artefacts.js?v=20261123hh1";
+import { clearBossArenaDecor } from "./boss-core.js?v=20261123hh1";
+import { tryOpenDoor } from "./door.js?v=20261123hh1";
+import { showFloat } from "./feedback.js?v=20261123hh1";
+import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261123hh1";
+import { applyBackground, bgKeyForLevel, prefetchBackgrounds } from "./map.js?v=20261123hh1";
+import { saveGame } from "./overlays.js?v=20261123hh1";
+import { setCrouchHitbox, snapPlayerToGround } from "./rooms.js?v=20261123hh1";
+import { _doorWatchdogTimer, _landingCheckTimer, awaitingQuiz, bossExtremoAllies, bossState, bossTimers, currentLevel, currentLevelTip, decorativePipes, difficulty, door, doorOverlap, enemyTimers, getDifficulty, getMaxLives, getVillainJumpIntervalMult, getVillainSpeedMult, heartsGfx, hudText, invuln, isItemVisibleInDificil, isReducibleItemKind, isStarAllowedExtremo, itemCountText, itemsCollected, itemsGroup, itemsTotal, lives, malwareGroup, pipeExitDecor, pipes, platforms, player, playerName, playerNameHUD, powerHaloGfx, powerIndicator, powered, progressFill, resetPipeWarpState, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__pendingEntranceReveal, set_awaitingQuiz, set_bossExtremoAllies, set_bossTimers, set_collectedItemIndices, set_collectedRoomPipes, set_controlsInvertedUntil, set_currentLevel, set_currentLevelTip, set_decorativePipes, set_door, set_doorOverlap, set_enemyTimers, set_extraShieldCounted, set_inSecretRoom, set_invuln, set_isCrouching, set_itemsCollected, set_itemsTotal, set_livesLostThisLevel, set_pipeExitDecor, set_pipes, set_secretRoomHidden, set_secretRoomReturn, set_secretRoomTemp, shadowGfx, tipText, touch } from "./state.js?v=20261123hh1";
+import { clearHazards, clearMovingPlatforms, clearPipeHintSign, clearSecretSigns, clearSecrets, clearTrampolines, difficultyFactor, spawnBalloons, spawnCritters, spawnHazards, spawnLevelSign, spawnMovingPlatforms, spawnPipeHintSign, spawnSecrets, spawnShields, spawnTrampolines } from "./world.js?v=20261123hh1";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261123hh1";
+import { resetLevelStarTracking } from "../stars.js?v=20261123hh1";
+import { makePlatformTextureThemed, makePipeTexture, makeWorldPlatformTexture, setPlatformWorld, platformWorldFromBg } from "../textures.js?v=20261123hh1";
+import { spawnPlatformDecor, resetDoorGlow } from "../background.js?v=20261123hh1";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261123hh1";
 
 // ===== Carregar nível =====
 
@@ -493,9 +493,13 @@ function spawnVilao(scene, x, y, vx, df, pattern="patrol", bounds=null) {
   // onde estão os pés e a sombra), para o vilão pisar mesmo no chão em vez
   // de flutuar ou ficar enterrado.
   // setSize/setOffset usam píxeis da textura (não do ecrã).
-  const bodyW = pattern === "mini" ? 34 : (pattern === "jumper" ? 54 : 48);
-  const bodyH = pattern === "mini" ? 34 : (pattern === "jumper" ? 54 : 48);
   const disp  = pattern === "mini" ? 50 : (pattern === "jumper" ? 80 : 66);
+  // Corpo físico ~70% do desenho (mini 30, patrol 46, jumper 62 px no ecrã), com a base nos pés.
+  // Os vilões passam por baixo das plataformas baixas (ver collider em scene.js).
+  // Em píxeis da textura: tamanho_no_ecrã * 64 / disp.
+  const bodyWorld = pattern === "mini" ? 30 : (pattern === "jumper" ? 62 : 46);
+  const bodyW = Math.round(bodyWorld * 64 / disp);
+  const bodyH = bodyW;
   v.setDisplaySize(disp, disp);
   v.body.setSize(bodyW, bodyH, false);
   v.body.setOffset((64 - bodyW) / 2, 56 - bodyH);
