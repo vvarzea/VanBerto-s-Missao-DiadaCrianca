@@ -7,22 +7,22 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { addBlocksAndPlatforms } from "./blocks.js?v=20261123ff1";
-import { createArtOrbs } from "./artefacts.js?v=20261123ff1";
-import { clearBossArenaDecor } from "./boss-core.js?v=20261123ff1";
-import { tryOpenDoor } from "./door.js?v=20261123ff1";
-import { showFloat } from "./feedback.js?v=20261123ff1";
-import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261123ff1";
-import { applyBackground, bgKeyForLevel, prefetchBackgrounds } from "./map.js?v=20261123ff1";
-import { saveGame } from "./overlays.js?v=20261123ff1";
-import { setCrouchHitbox, snapPlayerToGround } from "./rooms.js?v=20261123ff1";
-import { _doorWatchdogTimer, _landingCheckTimer, awaitingQuiz, bossExtremoAllies, bossState, bossTimers, currentLevel, currentLevelTip, decorativePipes, difficulty, door, doorOverlap, enemyTimers, getDifficulty, getMaxLives, getVillainJumpIntervalMult, getVillainSpeedMult, heartsGfx, hudText, invuln, isItemVisibleInDificil, isReducibleItemKind, isStarAllowedExtremo, itemCountText, itemsCollected, itemsGroup, itemsTotal, lives, malwareGroup, pipeExitDecor, pipes, platforms, player, playerName, playerNameHUD, powerHaloGfx, powerIndicator, powered, progressFill, resetPipeWarpState, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__pendingEntranceReveal, set_awaitingQuiz, set_bossExtremoAllies, set_bossTimers, set_collectedItemIndices, set_collectedRoomPipes, set_controlsInvertedUntil, set_currentLevel, set_currentLevelTip, set_decorativePipes, set_door, set_doorOverlap, set_enemyTimers, set_extraShieldCounted, set_inSecretRoom, set_invuln, set_isCrouching, set_itemsCollected, set_itemsTotal, set_livesLostThisLevel, set_pipeExitDecor, set_pipes, set_secretRoomHidden, set_secretRoomReturn, set_secretRoomTemp, shadowGfx, tipText, touch } from "./state.js?v=20261123ff1";
-import { clearHazards, clearMovingPlatforms, clearPipeHintSign, clearSecretSigns, clearSecrets, clearTrampolines, difficultyFactor, spawnBalloons, spawnCritters, spawnHazards, spawnLevelSign, spawnMovingPlatforms, spawnPipeHintSign, spawnSecrets, spawnShields, spawnTrampolines } from "./world.js?v=20261123ff1";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261123ff1";
-import { resetLevelStarTracking } from "../stars.js?v=20261123ff1";
-import { makePlatformTextureThemed, makePipeTexture } from "../textures.js?v=20261123ff1";
-import { spawnPlatformDecor, resetDoorGlow } from "../background.js?v=20261123ff1";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261123ff1";
+import { addBlocksAndPlatforms } from "./blocks.js?v=20261123ff2";
+import { createArtOrbs } from "./artefacts.js?v=20261123ff2";
+import { clearBossArenaDecor } from "./boss-core.js?v=20261123ff2";
+import { tryOpenDoor } from "./door.js?v=20261123ff2";
+import { showFloat } from "./feedback.js?v=20261123ff2";
+import { clearDoubleJump, clearPower, clearStarPower } from "./items.js?v=20261123ff2";
+import { applyBackground, bgKeyForLevel, prefetchBackgrounds } from "./map.js?v=20261123ff2";
+import { saveGame } from "./overlays.js?v=20261123ff2";
+import { setCrouchHitbox, snapPlayerToGround } from "./rooms.js?v=20261123ff2";
+import { _doorWatchdogTimer, _landingCheckTimer, awaitingQuiz, bossExtremoAllies, bossState, bossTimers, currentLevel, currentLevelTip, decorativePipes, difficulty, door, doorOverlap, enemyTimers, getDifficulty, getMaxLives, getVillainJumpIntervalMult, getVillainSpeedMult, heartsGfx, hudText, invuln, isItemVisibleInDificil, isReducibleItemKind, isStarAllowedExtremo, itemCountText, itemsCollected, itemsGroup, itemsTotal, lives, malwareGroup, pipeExitDecor, pipes, platforms, player, playerName, playerNameHUD, powerHaloGfx, powerIndicator, powered, progressFill, resetPipeWarpState, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__hudDirty, set__landingCheckTimer, set__pendingEntranceReveal, set_awaitingQuiz, set_bossExtremoAllies, set_bossTimers, set_collectedItemIndices, set_collectedRoomPipes, set_controlsInvertedUntil, set_currentLevel, set_currentLevelTip, set_decorativePipes, set_door, set_doorOverlap, set_enemyTimers, set_extraShieldCounted, set_inSecretRoom, set_invuln, set_isCrouching, set_itemsCollected, set_itemsTotal, set_livesLostThisLevel, set_pipeExitDecor, set_pipes, set_secretRoomHidden, set_secretRoomReturn, set_secretRoomTemp, shadowGfx, tipText, touch } from "./state.js?v=20261123ff2";
+import { clearHazards, clearMovingPlatforms, clearPipeHintSign, clearSecretSigns, clearSecrets, clearTrampolines, difficultyFactor, spawnBalloons, spawnCritters, spawnHazards, spawnLevelSign, spawnMovingPlatforms, spawnPipeHintSign, spawnSecrets, spawnShields, spawnTrampolines } from "./world.js?v=20261123ff2";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261123ff2";
+import { resetLevelStarTracking } from "../stars.js?v=20261123ff2";
+import { makePlatformTextureThemed, makePipeTexture } from "../textures.js?v=20261123ff2";
+import { spawnPlatformDecor, resetDoorGlow } from "../background.js?v=20261123ff2";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261123ff2";
 
 // ===== Carregar nível =====
 
@@ -367,8 +367,8 @@ export function loadLevel(scene,idx){
     // tudo.
     if (hardDif) {
       const spawnSafeX = (L.spawn?.x || 0) + 260; // nunca nascer em cima do jogador
-      const villainHalfW = 24;   // metade da largura do vilão "patrol" (48px, ver spawnVilao)
-      const clearance = 70;      // px SEMPRE livres de vilão em cada ponta da plataforma
+      const villainHalfW = 33;   // metade da largura do vilão "patrol" (66px, ver spawnVilao)
+      const clearance = 61;      // px SEMPRE livres de vilão em cada ponta da plataforma
       const minPatrolRange = 80; // amplitude mínima de patrulha — nunca deve parecer "fixo"
       const inset = clearance + villainHalfW; // distância do centro do vilão à borda da plataforma
       const minPlatformW = inset * 2 + minPatrolRange;
@@ -379,7 +379,7 @@ export function loadLevel(scene,idx){
       const patrolCount = Math.min(4, elevated.length);
       for (let i = 0; i < patrolCount; i++) {
         const p = elevated[i];
-        const half = 24; // metade da altura do vilão "patrol" (48px, ver spawnVilao)
+        const half = 25; // distância do centro do vilão "patrol" (66px) até à base do corpo (ver spawnVilao)
         const topY = p.y - p.h / 2 - half - 4; // nasce já assente no topo da plataforma
         spawnVilao(
           scene, p.x, topY,
@@ -494,7 +494,7 @@ function spawnVilao(scene, x, y, vx, df, pattern="patrol", bounds=null) {
   // setSize/setOffset usam píxeis da textura (não do ecrã).
   const bodyW = pattern === "mini" ? 34 : (pattern === "jumper" ? 54 : 48);
   const bodyH = pattern === "mini" ? 34 : (pattern === "jumper" ? 54 : 48);
-  const disp  = pattern === "mini" ? 36 : (pattern === "jumper" ? 58 : 48);
+  const disp  = pattern === "mini" ? 50 : (pattern === "jumper" ? 80 : 66);
   v.setDisplaySize(disp, disp);
   v.body.setSize(bodyW, bodyH, false);
   v.body.setOffset((64 - bodyW) / 2, 56 - bodyH);
