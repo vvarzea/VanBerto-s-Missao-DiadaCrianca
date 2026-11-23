@@ -49,7 +49,9 @@ export const BOSSES = [
     // corpo desenhado (canvas 116px, escala 1.5, pés ~49px abaixo do centro
     // → 49*1.5≈73px) até à superfície do chão da arena (plataforma principal
     // agora em y=521 com 30px de altura → topo em y=506). 506-73=433.
-    bossY: 433,
+    // v17: com as imagens novas (pés desenhados 84px abaixo do centro do canvas, ×0.75 = 63px) os pés ficam em
+    // bossY+63. 506-63=443 → o boss pisa mesmo o chão (antes, com 433, flutuava 10px).
+    bossY: 443,
     bossScale: 0.75,         // as imagens novas têm 232 px (o dobro dos desenhos antigos): 0.75 dá o mesmo tamanho no ecrã que 1.5 dava aos antigos
     // A textura (116x116) tem bastante espaço vazio por cima da cabeça (o
     // corpo começa só a ~1/5 do canvas) — sem isto a barra de vida usava a
@@ -318,7 +320,8 @@ export const BOSSES = [
     // outros — medi o pixel mais baixo do corpo (~26px abaixo do centro do
     // canvas, bem menos que os outros porque não tem "cabeça" alta, só caixa
     // + chaminé). 506 - 26*1.5 = 467.
-    bossY: 467,
+    // v17: mesma conta das imagens novas (pés em bossY+63): 506-63=443. Com 467 ficava 24px enterrado no chão.
+    bossY: 443,
     bossScale: 0.75,
     hpBarOffset: 82,
     signY: 486,
