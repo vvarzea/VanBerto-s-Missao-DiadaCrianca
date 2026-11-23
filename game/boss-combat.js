@@ -7,21 +7,21 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { clearMiniViruses, clearPopupHazard, clearToxicZones, currentContaminationZones, currentPopupConfig, doBossTeleport, showBossLaugh, spawnToxicZones, startPhishingDecoy, stopPhishingDecoy, triggerBossBlackout, updateToxicZones } from "./boss-attacks.js?v=20261123hh1";
-import { destroyBossHpBar, drawBossHpBar, enterBossPhase, startBossFinalStandBurst } from "./boss-core.js?v=20261123hh1";
-import { startBossQuizPhase } from "./boss-end.js?v=20261123hh1";
-import { vbSayRandom } from "./dialogue.js?v=20261123hh1";
-import { hitFlash } from "./dom.js?v=20261123hh1";
-import { applyHitStop, showFloat } from "./feedback.js?v=20261123hh1";
-import { showGameOver } from "./flow.js?v=20261123hh1";
-import { setInvuln } from "./items.js?v=20261123hh1";
-import { clearExtremoAllies, spawnExtremoReinforcement, updateHearts } from "./level.js?v=20261123hh1";
-import { snapPlayerToGround } from "./rooms.js?v=20261123hh1";
-import { awaitingQuiz, bossExtremoAllies, bossLockIcon, bossMiniViruses, bossOverlay, bossRageIcon, bossState, bossTimers, difficulty, heartsGfx, inBossFight, invuln, itemCountText, itemsGroup, lives, livesLostThisLevel, player, sceneRef, score, scoreText, set__hudDirty, set_awaitingQuiz, set_bossExtremoAllies, set_bossLockIcon, set_bossMiniViruses, set_bossOverlay, set_bossPopupAnchors, set_bossRageIcon, set_bossTimers, set_controlsInvertedUntil, set_invuln, set_lives, set_livesLostThisLevel, set_score, starPower, tipText } from "./state.js?v=20261123hh1";
-import { triggerVanBertoSad } from "./vanberto.js?v=20261123hh1";
-import { ensureAudio, beep, SFX } from "../audio.js?v=20261123hh1";
-import { BOSS_HP_TAUNTS } from "../data-story.js?v=20261123hh1";
-import { VB_STAR_POWER } from "../data-flavor.js?v=20261123hh1";
+import { clearMiniViruses, clearPopupHazard, clearToxicZones, currentContaminationZones, currentPopupConfig, doBossTeleport, showBossLaugh, spawnToxicZones, startPhishingDecoy, stopPhishingDecoy, triggerBossBlackout, updateToxicZones } from "./boss-attacks.js?v=20261123ii1";
+import { destroyBossHpBar, drawBossHpBar, enterBossPhase, startBossFinalStandBurst } from "./boss-core.js?v=20261123ii1";
+import { startBossQuizPhase } from "./boss-end.js?v=20261123ii1";
+import { vbSayRandom } from "./dialogue.js?v=20261123ii1";
+import { hitFlash } from "./dom.js?v=20261123ii1";
+import { applyHitStop, showFloat } from "./feedback.js?v=20261123ii1";
+import { showGameOver } from "./flow.js?v=20261123ii1";
+import { setInvuln } from "./items.js?v=20261123ii1";
+import { clearExtremoAllies, spawnExtremoReinforcement, updateHearts } from "./level.js?v=20261123ii1";
+import { snapPlayerToGround } from "./rooms.js?v=20261123ii1";
+import { awaitingQuiz, bossExtremoAllies, bossLockIcon, bossMiniViruses, bossOverlay, bossRageIcon, bossState, bossTimers, difficulty, heartsGfx, inBossFight, invuln, itemCountText, itemsGroup, lives, livesLostThisLevel, player, sceneRef, score, scoreText, set__hudDirty, set_awaitingQuiz, set_bossExtremoAllies, set_bossLockIcon, set_bossMiniViruses, set_bossOverlay, set_bossPopupAnchors, set_bossRageIcon, set_bossTimers, set_controlsInvertedUntil, set_invuln, set_lives, set_livesLostThisLevel, set_score, starPower, tipText } from "./state.js?v=20261123ii1";
+import { triggerVanBertoSad } from "./vanberto.js?v=20261123ii1";
+import { ensureAudio, beep, SFX } from "../audio.js?v=20261123ii1";
+import { BOSS_HP_TAUNTS } from "../data-story.js?v=20261123ii1";
+import { VB_STAR_POWER } from "../data-flavor.js?v=20261123ii1";
 
 // Reação exagerada tipo desenho animado sempre que QUALQUER boss é atingido:
 // achata-se por meio segundo (textura "_ouch" + squash) e volta ao normal,
@@ -275,7 +275,7 @@ function updateBossShield(scene, b) {
   let up = false, warn = false;
   if (t >= 0) { const c = t % (sh.up + sh.down); up = c < sh.up; warn = up && c > sh.up - 450; }
   bossState.shieldUp = up;
-  const now = scene.time.now, blink = warn ? (Math.floor(now / 80) % 2 ? 0.35 : 1) : 1;
+  const now = scene.time.now, blink = warn ? (Math.floor(now / 220) % 2 ? 0.55 : 1) : 1; // v21: era 80ms/0.35 (12 piscadelas/s, estroboscópico) → 220ms/0.55 (~2 por segundo)
   if (!bossState.shieldGfx || !bossState.shieldGfx.active) {
     const depth = (b.depth || 1) + 1;
     let g;
@@ -368,6 +368,13 @@ export function updateBossFight(scene) {
     const margin = Math.min(250, worldW * 0.26);
     if (b.x < margin) b.setVelocityX(speed);
     if (b.x > worldW - margin) b.setVelocityX(-speed);
+    // v22: andar com balanço de passo (inclina ±3° alternadamente) em vez de deslizar rígido.
+    // Só mexe no ângulo; não toca na posição/escala, que têm tweens próprios (saltinho, ouch, etc.).
+    if (!bossState.squishing && Math.abs(b.body.velocity.x) > 8) {
+      b.setAngle(Math.sin(scene.time.now * 0.0072) * 3.2);
+    } else if (!bossState.squishing && Math.abs(b.angle) > 0.2) {
+      b.setAngle(b.angle * 0.8);
+    }
   } else if (mt === "teleport") {
     // NOVO (pedido: "os bosses precisam de mais movimento") — antes disto,
     // este era o único dos 4 bosses SEM nenhum movimento contínuo: entre

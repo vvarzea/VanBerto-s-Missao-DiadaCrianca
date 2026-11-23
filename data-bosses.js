@@ -198,7 +198,12 @@ export const BOSSES = [
       platforms: [
         [480,521,960,30],   // chão principal, de ponta a ponta — topo em y=506
         [200,421,140,20],   // plataforma baixa esquerda
-        [760,421,140,20]    // plataforma baixa direita
+        [760,421,140,20],   // plataforma baixa direita
+        // v21: plataforma do MEIO, alta (topo em y=320, ~186px acima do chão; o salto chega a ~190px,
+        // por isso sobe-se a partir das plataformas baixas). Fica acima da onda do Vírus (o topo do
+        // desenho vai a ~348 no ponto mais alto) e fora do ponto de partida (x=400 → 378-422; a
+        // plataforma ocupa 430-570), para o VanBerto's não bater com a cabeça ao saltar no arranque.
+        [500,330,140,20]
       ],
       // Mesma lógica do Monstro da Ignorância: o VanBerto's deve começar
       // sempre no mesmo sítio em todos os bosses, em vez do 120 por omissão
