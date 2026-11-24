@@ -7,19 +7,20 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { resetAllProgress } from "./artefacts.js?v=20261123jj1";
-import { startBossFight } from "./boss-core.js?v=20261123jj1";
-import { btnCloseHow, btnHow, btnMute, btnPause, btnStart, gameOverOverlay, playerNameInput, quizAnswers, quizOverlay, startOverlay, winOverlay } from "./dom.js?v=20261123jj1";
-import { playLevelTransition } from "./door.js?v=20261123jj1";
-import { loadLevel, updateHearts } from "./level.js?v=20261123jj1";
-import { renderMap } from "./map.js?v=20261123jj1";
-import { closeOverlay, openOverlay, saveGame } from "./overlays.js?v=20261123jj1";
-import { resetQuizStats, showHistory, usedQuizByLevel, usedQuizByTheme } from "./quiz.js?v=20261123jj1";
-import { showPauseScreen } from "./scene.js?v=20261123jj1";
-import { bossState, currentLevel, getStartLives, inBossFight, pausedByTeacher, powerHaloGfx, sceneRef, score, scoreText, setDifficulty, set__overlayPaused, set_awaitingQuiz, set_currentLevel, set_lives, set_livesLostThisLevel, set_pausedByTeacher, set_playerName, set_score, shadowGfx } from "./state.js?v=20261123jj1";
-import { flushScoreToStats } from "./stats.js?v=20261123jj1";
-import { toggleMuted, ensureAudio, SFX } from "../audio.js?v=20261123jj1";
-import { loadNamespace, saveNamespace } from "../storage.js?v=20261123jj1";
+import { resetAllProgress } from "./artefacts.js?v=20261124b1";
+import { startBossFight } from "./boss-core.js?v=20261124b1";
+import { btnCloseHow, btnHow, btnMute, btnPause, btnStart, gameOverOverlay, playerNameInput, quizAnswers, quizOverlay, startOverlay, winOverlay } from "./dom.js?v=20261124b1";
+import { playLevelTransition } from "./door.js?v=20261124b1";
+import { loadLevel, updateHearts } from "./level.js?v=20261124b1";
+import { renderMap } from "./map.js?v=20261124b1";
+import { closeOverlay, openOverlay, saveGame } from "./overlays.js?v=20261124b1";
+import { resetQuizStats, showHistory, usedQuizByLevel, usedQuizByTheme } from "./quiz.js?v=20261124b1";
+import { showPauseScreen } from "./scene.js?v=20261124b1";
+import { bossState, currentLevel, getStartLives, inBossFight, pausedByTeacher, powerHaloGfx, sceneRef, score, scoreText, setDifficulty, set__overlayPaused, set_awaitingQuiz, set_currentLevel, set_lives, set_livesLostThisLevel, set_pausedByTeacher, set_playerName, set_score, shadowGfx } from "./state.js?v=20261124b1";
+import { flushScoreToStats } from "./stats.js?v=20261124b1";
+import { toggleMuted, ensureAudio, SFX } from "../audio.js?v=20261124b1";
+import { loadNamespace, saveNamespace } from "../storage.js?v=20261124b1";
+import { spawnGrace } from "./items.js?v=20261124b1";
 
 // Botão "Sair" no menu principal — fecha mesmo o jogo (diferente do
 // "Sair para o Menu" que existe durante o jogo, que só volta ao menu
@@ -390,7 +391,7 @@ export function init_ui_1() {
     scoreText.setText(`🌟 Pontos: ${score}`);
     const retryLevel = currentLevel ?? 0;
     loadLevel(sceneRef, retryLevel);
-    showHistory(retryLevel, () => { set_awaitingQuiz(false); if(!pausedByTeacher) sceneRef.physics.resume(); });
+    showHistory(retryLevel, () => { set_awaitingQuiz(false); if(!pausedByTeacher) sceneRef.physics.resume(); spawnGrace(sceneRef); });
     saveGame();
   };
   if(btnExit) btnExit.onclick=()=>{
@@ -421,7 +422,7 @@ export function init_ui_1() {
     document.body.classList.add("game-started");
     playLevelTransition(sceneRef, 0,
       () => { loadLevel(sceneRef, 0); saveGame(); },
-      () => { showHistory(0, () => { set_awaitingQuiz(false); if(!pausedByTeacher) sceneRef?.physics.resume(); }); }
+      () => { showHistory(0, () => { set_awaitingQuiz(false); if(!pausedByTeacher) sceneRef?.physics.resume(); spawnGrace(sceneRef); }); }
     );
   };
 }

@@ -7,23 +7,24 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { vbSay } from "./dialogue.js?v=20261123jj1";
-import { startOverlay } from "./dom.js?v=20261123jj1";
-import { playLevelTransition } from "./door.js?v=20261123jj1";
-import { loadLevel } from "./level.js?v=20261123jj1";
-import { openOverlay, saveGame } from "./overlays.js?v=20261123jj1";
-import { showHistory } from "./quiz.js?v=20261123jj1";
-import { initPhaser } from "./scene.js?v=20261123jj1";
-import { currentLevel, getStartLives, mapProgress, pausedByTeacher, playerName, playerNameHUD, powerHaloGfx, sceneRef, score, set__historySubOpen, set__overlayPaused, set__winOverlaySubOpen, set_currentLevel, set_lives, shadowGfx } from "./state.js?v=20261123jj1";
-import { loadNamespace, saveNamespace } from "../storage.js?v=20261123jj1";
-import { MAP_REGIONS } from "../data-progression.js?v=20261123jj1";
-import { applyBackground as applyBackgroundRaw } from "../background.js?v=20261123jj1";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261123jj1";
-import { ensureAudio, SFX } from "../audio.js?v=20261123jj1";
-import { playTitleCard } from "../cinematics.js?v=20261123jj1";
-import { starsForLevel } from "../stars.js?v=20261123jj1";
-import { REGION_INTRO } from "../data-story.js?v=20261123jj1";
-import { VB_LEVEL_INTRO } from "../data-flavor.js?v=20261123jj1";
+import { vbSay } from "./dialogue.js?v=20261124b1";
+import { startOverlay } from "./dom.js?v=20261124b1";
+import { playLevelTransition } from "./door.js?v=20261124b1";
+import { loadLevel } from "./level.js?v=20261124b1";
+import { openOverlay, saveGame } from "./overlays.js?v=20261124b1";
+import { showHistory } from "./quiz.js?v=20261124b1";
+import { initPhaser } from "./scene.js?v=20261124b1";
+import { currentLevel, getStartLives, mapProgress, pausedByTeacher, player, playerName, playerNameHUD, powerHaloGfx, sceneRef, score, set__historySubOpen, set__overlayPaused, set__winOverlaySubOpen, set_awaitingQuiz, set_currentLevel, set_lives, shadowGfx } from "./state.js?v=20261124b1";
+import { loadNamespace, saveNamespace } from "../storage.js?v=20261124b1";
+import { MAP_REGIONS } from "../data-progression.js?v=20261124b1";
+import { applyBackground as applyBackgroundRaw } from "../background.js?v=20261124b1";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261124b1";
+import { ensureAudio, SFX } from "../audio.js?v=20261124b1";
+import { playTitleCard } from "../cinematics.js?v=20261124b1";
+import { starsForLevel } from "../stars.js?v=20261124b1";
+import { REGION_INTRO } from "../data-story.js?v=20261124b1";
+import { VB_LEVEL_INTRO } from "../data-flavor.js?v=20261124b1";
+import { spawnGrace } from "./items.js?v=20261124b1";
 
 
 // ===== Dicas =====
@@ -437,10 +438,22 @@ function startLevelFromMap(idx) {
   const begin = () => {
     set_currentLevel( idx);
     if (isFreshSessionEntry) set_lives( getStartLives());
+    // v25 CORRIGIDO (perdia-se uma vida ao entrar no nível seguinte, ANTES de começar a jogar):
+    // ao tocar num nível do mapa, set__overlayPaused(false) (acima) tira a razão legítima de pausa
+    // e nextLevel() deixou awaitingQuiz=false ao abrir o mapa — por isso o watchdog do update()
+    // (scene.js) retomava a física logo ali, com o VanBerto's ainda no nível ANTIGO (invisível, junto
+    // à porta) e os vilões a andar durante o cartão do mundo + a transição (vários segundos), e um
+    // vilão podia tocar-lhe e tirar uma vida. Agora o jogo fica travado (awaitingQuiz=true, física
+    // pausada, sem hits) até ao fim da transição; loadLevel() mantém esta trava e é o cartão
+    // «Sabias que…?» (showHistory) que a liberta, seguido da proteção de arranque (spawnGrace).
+    set_awaitingQuiz(true);
+    try { sceneRef.physics.pause(); } catch {}
+    try { if (player) { player.setVelocity(0, 0); player.setAlpha(0); } } catch {}
     const startTransition = () => playLevelTransition(sceneRef, idx,
       () => { loadLevel(sceneRef, idx); saveGame(); },
       () => { showHistory(idx, () => {
         if (!pausedByTeacher) sceneRef.physics.resume();
+        spawnGrace(sceneRef);
         // Fala de boas-vindas do VanBerto's — antes só disparava no
         // arranque direto do jogo; agora todo o Nível 1 passa por aqui.
         if (idx === 0) setTimeout(() => vbSay(VB_LEVEL_INTRO[0], "intro", 4000), 800);

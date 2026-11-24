@@ -11,7 +11,7 @@ export const PAUSE_TIPS = [
   "❓ <b>Bloco surpresa:</b> Passa por cima dos blocos <b>❓</b> para revelar itens escondidos!",
   "🟠 <b>Trampolim:</b> Salta numa plataforma laranja para voar muito mais alto que o normal.",
   "🥇 <b>Bónus:</b> Completa um nível sem perder vidas para ganhar +50 pontos extra!",
-  "🌑 Sombra — lenta e previsível. 🟣 Espinho — salta às vezes. 🪲 Bicho da Indiferença — persegue-te!",
+  "👾 Sombra rosa — lenta e previsível. Espinho laranja — salta às vezes. Bicho da Indiferença verde — persegue-te!",
   "❤️ <b>Coração:</b> Apanha-o para ganhar +1 vida (máximo 5 ao mesmo tempo).",
   "🦘 <b>Nível dos Trampolins:</b> Os vãos são intransponíveis sem trampolim — procura-os no chão!",
   "🔥 <b>Nível da Lava:</b> O chão queima! Mantém-te sempre em cima das plataformas.",

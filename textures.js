@@ -1,4 +1,4 @@
-import { buildBossArt } from "./game/boss-art.js?v=20261123jj1";
+import { buildBossArt } from "./game/boss-art.js?v=20261124b1";
 // ===== Geração de texturas Phaser/canvas — VanBerto's =====
 // Extraído de dia-crianca.js. Ficheiro 100% autocontido: cada função só
 // depende do parâmetro `scene` (instância Phaser) e de constantes locais.
@@ -407,11 +407,11 @@ function makeVilaosTextures(scene){
     const tex=scene.textures.createCanvas("vilao_round",64,64), ctx=tex.getContext(); const cx=32,cy=30;
     const blob=()=>{ctx.beginPath(); ctx.moveTo(cx-22,cy+4); ctx.arc(cx,cy+4,22,Math.PI,0); ctx.lineTo(cx+22,cy+16);
       for(let i=0;i<4;i++){const x2=cx+22-11*(i+1); ctx.quadraticCurveTo(cx+22-11*i-5.5,cy+30,x2,cy+16);} ctx.closePath();};
-    ctx.shadowColor="rgba(120,90,255,0.65)"; ctx.shadowBlur=10; ctx.strokeStyle="rgba(255,255,255,0.9)"; ctx.lineWidth=4.5; blob(); ctx.stroke(); ctx.shadowBlur=0;
-    const g=ctx.createRadialGradient(cx-7,cy-8,2,cx,cy+2,26); g.addColorStop(0,"#6a66a0"); g.addColorStop(0.5,"#34305a"); g.addColorStop(1,"#171430");
-    ctx.fillStyle=g; blob(); ctx.fill(); ctx.strokeStyle="#0d0b1c"; ctx.lineWidth=2; ctx.stroke();
+    ctx.shadowColor="rgba(255,60,180,0.75)"; ctx.shadowBlur=10; ctx.strokeStyle="rgba(255,255,255,0.9)"; ctx.lineWidth=4.5; blob(); ctx.stroke(); ctx.shadowBlur=0;
+    const g=ctx.createRadialGradient(cx-7,cy-8,2,cx,cy+2,26); g.addColorStop(0,"#ffa8e6"); g.addColorStop(0.5,"#f0369e"); g.addColorStop(1,"#9a1070");
+    ctx.fillStyle=g; blob(); ctx.fill(); ctx.strokeStyle="#4a0638"; ctx.lineWidth=2; ctx.stroke();
     sombraOlhos(ctx,cx,cy-1,"#ffd93a",8,0.35);
-    ctx.fillStyle="#0d0b1c"; ctx.beginPath(); ctx.ellipse(cx,cy+13,11,5,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle="#4a0638"; ctx.beginPath(); ctx.ellipse(cx,cy+13,11,5,0,0,Math.PI*2); ctx.fill();
     ctx.fillStyle="#fff"; for(let i=0;i<4;i++){const x=cx-8+i*5.3; ctx.beginPath(); ctx.moveTo(x,cy+9.2); ctx.lineTo(x+4,cy+9.2); ctx.lineTo(x+2,cy+14); ctx.closePath(); ctx.fill();}
     tex.refresh();
   }
@@ -420,37 +420,37 @@ function makeVilaosTextures(scene){
   if(!scene.textures.exists("vilao_spike")){
     const tex=scene.textures.createCanvas("vilao_spike",64,64), ctx=tex.getContext(); const cx=32,cy=32;
     const spikes=()=>{ctx.beginPath(); for(let i=0;i<12;i++){const a=i*Math.PI/6, w=0.2; ctx.moveTo(cx+Math.cos(a-w)*17,cy+Math.sin(a-w)*17); ctx.lineTo(cx+Math.cos(a)*28,cy+Math.sin(a)*28); ctx.lineTo(cx+Math.cos(a+w)*17,cy+Math.sin(a+w)*17); ctx.closePath();}};
-    ctx.shadowColor="rgba(190,90,255,0.6)"; ctx.shadowBlur=10; ctx.strokeStyle="rgba(255,255,255,0.9)"; ctx.lineWidth=4; spikes(); ctx.stroke(); ctx.shadowBlur=0;
-    ctx.fillStyle="#3d2d63"; spikes(); ctx.fill(); ctx.strokeStyle="#1a1030"; ctx.lineWidth=1.6; ctx.stroke();
-    const g=ctx.createRadialGradient(cx-6,cy-7,2,cx,cy,20); g.addColorStop(0,"#b79be0"); g.addColorStop(0.5,"#7a5cb4"); g.addColorStop(1,"#463070");
-    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,19,0,Math.PI*2); ctx.fill(); ctx.strokeStyle="#1a1030"; ctx.lineWidth=2; ctx.stroke();
-    sombraOlhos(ctx,cx,cy-1,"#ff6a2a",7,0.3);
-    ctx.strokeStyle="#1a1030"; ctx.lineWidth=2.6; ctx.lineCap="round"; ctx.beginPath(); ctx.arc(cx,cy+16,7,Math.PI*1.15,Math.PI*1.85); ctx.stroke();
+    ctx.shadowColor="rgba(255,140,30,0.75)"; ctx.shadowBlur=10; ctx.strokeStyle="rgba(255,255,255,0.9)"; ctx.lineWidth=4; spikes(); ctx.stroke(); ctx.shadowBlur=0;
+    ctx.fillStyle="#e0241a"; spikes(); ctx.fill(); ctx.strokeStyle="#6b0a0a"; ctx.lineWidth=1.6; ctx.stroke();
+    const g=ctx.createRadialGradient(cx-6,cy-7,2,cx,cy,20); g.addColorStop(0,"#ffd27a"); g.addColorStop(0.5,"#ff8a1f"); g.addColorStop(1,"#d1500a");
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,19,0,Math.PI*2); ctx.fill(); ctx.strokeStyle="#6b0a0a"; ctx.lineWidth=2; ctx.stroke();
+    sombraOlhos(ctx,cx,cy-1,"#27d9ff",7,0.3);
+    ctx.strokeStyle="#6b0a0a"; ctx.lineWidth=2.6; ctx.lineCap="round"; ctx.beginPath(); ctx.arc(cx,cy+16,7,Math.PI*1.15,Math.PI*1.85); ctx.stroke();
     tex.refresh();
   }
 
   // 3) Bicho da Indiferença — escaravelho cinzento, de pálpebras descaídas, que nem quer saber
   if(!scene.textures.exists("vilao_bug")){
     const tex=scene.textures.createCanvas("vilao_bug",64,64), ctx=tex.getContext(); const cx=32;
-    ctx.strokeStyle="#2b2a38"; ctx.lineWidth=3; ctx.lineCap="round";
+    ctx.strokeStyle="#0f3a1a"; ctx.lineWidth=3; ctx.lineCap="round";
     [-17,-9,-1].forEach(x=>{ctx.beginPath(); ctx.moveTo(cx+x-2,44); ctx.lineTo(cx+x-8,56); ctx.stroke(); ctx.beginPath(); ctx.moveTo(cx-x+2,44); ctx.lineTo(cx-x+8,56); ctx.stroke();});
     ctx.beginPath(); ctx.moveTo(cx-6,13); ctx.lineTo(cx-12,5); ctx.moveTo(cx+6,13); ctx.lineTo(cx+12,5); ctx.stroke();
-    ctx.fillStyle="#2b2a38"; [[cx-12,5],[cx+12,5]].forEach(([x,y])=>{ctx.beginPath(); ctx.arc(x,y,2.4,0,Math.PI*2); ctx.fill();});
+    ctx.fillStyle="#0f3a1a"; [[cx-12,5],[cx+12,5]].forEach(([x,y])=>{ctx.beginPath(); ctx.arc(x,y,2.4,0,Math.PI*2); ctx.fill();});
     const shell=()=>{ctx.beginPath(); ctx.ellipse(cx,38,23,15,0,0,Math.PI*2);};
-    ctx.shadowColor="rgba(150,150,190,0.7)"; ctx.shadowBlur=9; ctx.strokeStyle="rgba(255,255,255,0.9)"; ctx.lineWidth=4.5; shell(); ctx.stroke(); ctx.shadowBlur=0;
-    const g=ctx.createRadialGradient(cx-8,30,2,cx,38,24); g.addColorStop(0,"#a9a7c0"); g.addColorStop(0.6,"#6a6882"); g.addColorStop(1,"#3a384e");
-    ctx.fillStyle=g; shell(); ctx.fill(); ctx.strokeStyle="#262535"; ctx.lineWidth=2; ctx.stroke();
-    ctx.strokeStyle="#262535"; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(cx,26); ctx.lineTo(cx,52); ctx.stroke();
-    ctx.fillStyle="#262535"; [[-11,36],[11,36],[-8,46],[8,46]].forEach(([dx,y])=>{ctx.beginPath(); ctx.arc(cx+dx,y,2.2,0,Math.PI*2); ctx.fill();});
-    const hg=ctx.createRadialGradient(cx-4,16,2,cx,22,15); hg.addColorStop(0,"#c4c2da"); hg.addColorStop(1,"#7e7c98");
-    ctx.fillStyle=hg; ctx.beginPath(); ctx.ellipse(cx,23,15,12,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle="#262535"; ctx.lineWidth=2; ctx.stroke();
+    ctx.shadowColor="rgba(90,230,110,0.75)"; ctx.shadowBlur=9; ctx.strokeStyle="rgba(255,255,255,0.9)"; ctx.lineWidth=4.5; shell(); ctx.stroke(); ctx.shadowBlur=0;
+    const g=ctx.createRadialGradient(cx-8,30,2,cx,38,24); g.addColorStop(0,"#d8ff7a"); g.addColorStop(0.6,"#4cc92a"); g.addColorStop(1,"#1e7a2a");
+    ctx.fillStyle=g; shell(); ctx.fill(); ctx.strokeStyle="#0f3a1a"; ctx.lineWidth=2; ctx.stroke();
+    ctx.strokeStyle="#0f3a1a"; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(cx,26); ctx.lineTo(cx,52); ctx.stroke();
+    ctx.fillStyle="#0f3a1a"; [[-11,36],[11,36],[-8,46],[8,46]].forEach(([dx,y])=>{ctx.beginPath(); ctx.arc(cx+dx,y,2.2,0,Math.PI*2); ctx.fill();});
+    const hg=ctx.createRadialGradient(cx-4,16,2,cx,22,15); hg.addColorStop(0,"#eaffa0"); hg.addColorStop(1,"#7fe04a");
+    ctx.fillStyle=hg; ctx.beginPath(); ctx.ellipse(cx,23,15,12,0,0,Math.PI*2); ctx.fill(); ctx.strokeStyle="#0f3a1a"; ctx.lineWidth=2; ctx.stroke();
     [[-6.5,22],[6.5,22]].forEach(([dx,y])=>{
       ctx.fillStyle="#fff"; ctx.beginPath(); ctx.arc(cx+dx,y,4.8,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle="#262535"; ctx.beginPath(); ctx.arc(cx+dx+1.2,y+1.6,1.9,0,Math.PI*2); ctx.fill();
-      ctx.fillStyle="#9a98b4"; ctx.beginPath(); ctx.arc(cx+dx,y,5,Math.PI,0); ctx.fill();
-      ctx.strokeStyle="#262535"; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(cx+dx-5,y); ctx.lineTo(cx+dx+5,y); ctx.stroke();
+      ctx.fillStyle="#0f3a1a"; ctx.beginPath(); ctx.arc(cx+dx+1.2,y+1.6,1.9,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle="#2fa84a"; ctx.beginPath(); ctx.arc(cx+dx,y,5,Math.PI,0); ctx.fill();
+      ctx.strokeStyle="#0f3a1a"; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(cx+dx-5,y); ctx.lineTo(cx+dx+5,y); ctx.stroke();
     });
-    ctx.strokeStyle="#262535"; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(cx-13,15); ctx.lineTo(cx-3,18); ctx.moveTo(cx+13,15); ctx.lineTo(cx+3,18); ctx.stroke();
+    ctx.strokeStyle="#0f3a1a"; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(cx-13,15); ctx.lineTo(cx-3,18); ctx.moveTo(cx+13,15); ctx.lineTo(cx+3,18); ctx.stroke();
     ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(cx-5,30); ctx.lineTo(cx+5,29); ctx.stroke();
     tex.refresh();
   }
@@ -1947,11 +1947,11 @@ function makeItemTextures(scene){
   if(!scene.textures.exists("drone_hostil")){
     const tex=scene.textures.createCanvas("drone_hostil",64,52), ctx=tex.getContext();
     const puff=(x,y,r,c)=>{ctx.fillStyle=c;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();};
-    ctx.shadowColor="rgba(255,60,60,0.55)"; ctx.shadowBlur=8;
-    [[20,24,13],[34,18,15],[46,25,12],[28,30,12],[40,31,11]].forEach(([x,y,r])=>puff(x,y,r+2,"#23253a"));
+    ctx.shadowColor="rgba(120,90,255,0.7)"; ctx.shadowBlur=8;
+    [[20,24,13],[34,18,15],[46,25,12],[28,30,12],[40,31,11]].forEach(([x,y,r])=>puff(x,y,r+2,"#2b1a8a"));
     ctx.shadowBlur=0;
-    [[20,24,13],[34,18,15],[46,25,12],[28,30,12],[40,31,11]].forEach(([x,y,r])=>puff(x,y,r,"#565b78"));
-    puff(31,13,7,"#7a80a3");
+    [[20,24,13],[34,18,15],[46,25,12],[28,30,12],[40,31,11]].forEach(([x,y,r])=>puff(x,y,r,"#6f5bff"));
+    puff(31,13,7,"#b2a6ff");
     ctx.strokeStyle="#16172a"; ctx.lineWidth=3; ctx.lineCap="round";
     ctx.beginPath(); ctx.moveTo(19,19); ctx.lineTo(29,23); ctx.moveTo(47,19); ctx.lineTo(37,23); ctx.stroke();
     [[26,27],[40,27]].forEach(([x,y])=>{puff(x,y,5,"#ffffff");puff(x+1,y+1,3,"#e02020");puff(x+1,y+1,1.2,"#300000");});

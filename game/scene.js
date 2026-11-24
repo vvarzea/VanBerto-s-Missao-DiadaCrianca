@@ -7,32 +7,33 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { loadBossArt } from "./boss-art.js?v=20261123jj1";
-import { onPlatformCollide, getWindX, resetKeys } from "./blocks.js?v=20261123jj1";
-import { createArtOrbs } from "./artefacts.js?v=20261123jj1";
-import { updateBossFight } from "./boss-combat.js?v=20261123jj1";
-import { btnCloseQuiz, btnMute, btnPause, btnRestart, btnRestartGame, gameOverOverlay, historyOverlay, quizOverlay, startOverlay, winOverlay } from "./dom.js?v=20261123jj1";
-import { playLevelTransition } from "./door.js?v=20261123jj1";
-import { pickPraise, showFloat } from "./feedback.js?v=20261123jj1";
-import { createTouchInput } from "./input.js?v=20261123jj1";
-import { onCollectItem, onHitMalware, poweredCountdownVal } from "./items.js?v=20261123jj1";
-import { loadLevel, updateHUD, updateHearts, updateProgressBar } from "./level.js?v=20261123jj1";
-import { BG_FILES, _bootLevelIdx, bgKeyForLevel, prefersReducedMotion, renderMap, setupBackgroundLoading } from "./map.js?v=20261123jj1";
-import { SECONDARY_OVERLAYS, closeAllSecondaryOverlays, loadGame, openOverlay, saveGame } from "./overlays.js?v=20261123jj1";
-import { quizStats, resetQuizStats, showHistory, usedQuizByLevel, usedQuizByTheme } from "./quiz.js?v=20261123jj1";
-import { exitCrouch, setCrouchHitbox, tryEnterPipe } from "./rooms.js?v=20261123jj1";
-import { COYOTE_MS, GRAVITY, JUMP_BUFFER_MS, _critterSession, _doorAnimRunning, _doorWatchdogTimer, _hudDirty, _landingCheckTimer, _overlayPaused, _pipeDownWasHeld, _pipeWarping, _suppressCrouchUntilRelease, awaitingQuiz, awaitingStory, balloons, bossState, controlsInvertedUntil, coyoteUntil, critters, currentLevel, cursors, door, doorOverlap, doubleJumpActive, doubleJumpUsed, getStartLives, hazards, inBossFight, inSecretRoom, invuln, isCrouching, itemsGroup, jumpBufferedUntil, keyS, keySpace, lives, malwareGroup, mapProgress, pauseOverlayGfx, pausedByTeacher, pipes, platforms, player, powerHaloGfx, powered, progressBg, progressFill, resetPipeWarpState, sceneRef, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__historySubOpen, set__hudDirty, set__landingCheckTimer, set__overlayPaused, set__pipeDownWasHeld, set__suppressCrouchUntilRelease, set_awaitingQuiz, set_awaitingStory, set_coyoteUntil, set_cursors, set_difficultyBadge, set_doorOverlap, set_doubleJumpUsed, set_heartsGfx, set_hudText, set_isCrouching, set_itemCountText, set_itemsGroup, set_jumpBufferedUntil, set_keyS, set_keySpace, set_lives, set_livesLostThisLevel, set_malwareGroup, set_pauseOverlayGfx, set_pausedByTeacher, set_platforms, set_player, set_playerNameHUD, set_powerHaloGfx, set_powerIndicator, set_progressBg, set_progressFill, set_sceneRef, set_score, set_scoreText, set_shadowGfx, set_sunAngle, set_tipText, set_transitionGfx, set_transitionLabel, shadowGfx, starPower, starPowerCountVal, sunAngle, touch, updateDifficultyBadge } from "./state.js?v=20261123jj1";
-import { flushScoreToStats } from "./stats.js?v=20261123jj1";
-import { applyVanBertoTexture, scheduleBlink, triggerVanBertoWink } from "./vanberto.js?v=20261123jj1";
-import { updateDecorativePipeReactions, updateHazards, updateMovingPlatforms, updatePipeHintSign, updateSecretSigns, updateSecrets, updateSigns, updateTrampolines } from "./world.js?v=20261123jj1";
-import { makeTextures } from "../textures.js?v=20261123jj1";
-import { initBackground, drawSun, NIGHT_THEMES, drawStars, clouds, drawCloud, updateTrail, updateFootsteps, updateDoorGlow, updatePlatformDecor, bgConfetti } from "../background.js?v=20261123jj1";
-import { isMuted, ensureAudio, SFX, beep } from "../audio.js?v=20261123jj1";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261123jj1";
-import { ACHIEVEMENTS_DEFS } from "../data-progression.js?v=20261123jj1";
-import { unlockedAchievements } from "../achievements.js?v=20261123jj1";
-import { totalStarsEarned } from "../stars.js?v=20261123jj1";
-import { PAUSE_TIPS } from "../data-flavor.js?v=20261123jj1";
+import { loadBossArt } from "./boss-art.js?v=20261124b1";
+import { onPlatformCollide, getWindX, resetKeys } from "./blocks.js?v=20261124b1";
+import { createArtOrbs } from "./artefacts.js?v=20261124b1";
+import { updateBossFight } from "./boss-combat.js?v=20261124b1";
+import { btnCloseQuiz, btnMute, btnPause, btnRestart, btnRestartGame, gameOverOverlay, historyOverlay, quizOverlay, startOverlay, winOverlay } from "./dom.js?v=20261124b1";
+import { playLevelTransition } from "./door.js?v=20261124b1";
+import { pickPraise, showFloat } from "./feedback.js?v=20261124b1";
+import { createTouchInput } from "./input.js?v=20261124b1";
+import { onCollectItem, onHitMalware, poweredCountdownVal } from "./items.js?v=20261124b1";
+import { loadLevel, updateHUD, updateHearts, updateProgressBar } from "./level.js?v=20261124b1";
+import { BG_FILES, _bootLevelIdx, bgKeyForLevel, prefersReducedMotion, renderMap, setupBackgroundLoading } from "./map.js?v=20261124b1";
+import { SECONDARY_OVERLAYS, closeAllSecondaryOverlays, loadGame, openOverlay, saveGame } from "./overlays.js?v=20261124b1";
+import { quizStats, resetQuizStats, showHistory, usedQuizByLevel, usedQuizByTheme } from "./quiz.js?v=20261124b1";
+import { exitCrouch, setCrouchHitbox, tryEnterPipe } from "./rooms.js?v=20261124b1";
+import { COYOTE_MS, GRAVITY, JUMP_BUFFER_MS, _critterSession, _doorAnimRunning, _doorWatchdogTimer, _hudDirty, _landingCheckTimer, _overlayPaused, _pipeDownWasHeld, _pipeWarping, _suppressCrouchUntilRelease, awaitingQuiz, awaitingStory, balloons, bossState, controlsInvertedUntil, coyoteUntil, critters, currentLevel, cursors, door, doorOverlap, doubleJumpActive, doubleJumpUsed, getStartLives, hazards, inBossFight, inSecretRoom, invuln, isCrouching, itemsGroup, jumpBufferedUntil, keyS, keySpace, lives, malwareGroup, mapProgress, pauseOverlayGfx, pausedByTeacher, pipes, platforms, player, powerHaloGfx, powered, progressBg, progressFill, resetPipeWarpState, sceneRef, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__historySubOpen, set__hudDirty, set__landingCheckTimer, set__overlayPaused, set__pipeDownWasHeld, set__suppressCrouchUntilRelease, set_awaitingQuiz, set_awaitingStory, set_coyoteUntil, set_cursors, set_difficultyBadge, set_doorOverlap, set_doubleJumpUsed, set_heartsGfx, set_hudText, set_isCrouching, set_itemCountText, set_itemsGroup, set_jumpBufferedUntil, set_keyS, set_keySpace, set_lives, set_livesLostThisLevel, set_malwareGroup, set_pauseOverlayGfx, set_pausedByTeacher, set_platforms, set_player, set_playerNameHUD, set_powerHaloGfx, set_powerIndicator, set_progressBg, set_progressFill, set_sceneRef, set_score, set_scoreText, set_shadowGfx, set_sunAngle, set_tipText, set_transitionGfx, set_transitionLabel, shadowGfx, starPower, starPowerCountVal, sunAngle, touch, updateDifficultyBadge } from "./state.js?v=20261124b1";
+import { flushScoreToStats } from "./stats.js?v=20261124b1";
+import { applyVanBertoTexture, scheduleBlink, triggerVanBertoWink } from "./vanberto.js?v=20261124b1";
+import { updateDecorativePipeReactions, updateHazards, updateMovingPlatforms, updatePipeHintSign, updateSecretSigns, updateSecrets, updateSigns, updateTrampolines } from "./world.js?v=20261124b1";
+import { makeTextures } from "../textures.js?v=20261124b1";
+import { initBackground, drawSun, NIGHT_THEMES, drawStars, clouds, drawCloud, updateTrail, updateFootsteps, updateDoorGlow, updatePlatformDecor, bgConfetti } from "../background.js?v=20261124b1";
+import { isMuted, ensureAudio, SFX, beep } from "../audio.js?v=20261124b1";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261124b1";
+import { ACHIEVEMENTS_DEFS } from "../data-progression.js?v=20261124b1";
+import { unlockedAchievements } from "../achievements.js?v=20261124b1";
+import { totalStarsEarned } from "../stars.js?v=20261124b1";
+import { PAUSE_TIPS } from "../data-flavor.js?v=20261124b1";
+import { spawnGrace } from "./items.js?v=20261124b1";
 
 // ===== Resolução de desenho (v23) =====
 // O jogo continua a usar coordenadas 960×540, mas a tela é desenhada a RENDER_RES× (até 2×) e a
@@ -283,7 +284,7 @@ function create() {
       set__doorAnimRunning( false);
       touch.left=touch.right=touch.jump=touch.crouch=false;
       loadLevel(sceneRef,currentLevel);
-      showHistory(currentLevel, () => { set_awaitingQuiz(false); if(!pausedByTeacher) sceneRef.physics.resume(); });
+      showHistory(currentLevel, () => { set_awaitingQuiz(false); if(!pausedByTeacher) sceneRef.physics.resume(); spawnGrace(sceneRef); });
       saveGame();
     };
   }
@@ -331,7 +332,7 @@ function create() {
       resetQuizStats(); Object.keys(usedQuizByLevel).forEach(k=>usedQuizByLevel[k].clear()); Object.keys(usedQuizByTheme).forEach(k=>usedQuizByTheme[k].clear());
       scoreText.setText(`🌟 Pontos: ${score}`); updateHearts();
       loadLevel(sceneRef,0);
-      showHistory(0, () => { set_awaitingQuiz(false); if(!pausedByTeacher) sceneRef.physics.resume(); });
+      showHistory(0, () => { set_awaitingQuiz(false); if(!pausedByTeacher) sceneRef.physics.resume(); spawnGrace(sceneRef); });
       saveGame();
     };
   }
@@ -369,7 +370,10 @@ function create() {
       }
       set_pausedByTeacher(false); btnPause.textContent="⏸ Pausa"; showPauseScreen(false);
       quizOverlay.classList.add("hidden"); btnCloseQuiz.classList.add("hidden");
-      historyOverlay.classList.add("hidden"); set__historySubOpen( false); set_awaitingQuiz(false);
+      historyOverlay.classList.add("hidden"); set__historySubOpen( false);
+      // v25: manter a trava (awaitingQuiz=true) durante a transição — com false, o watchdog do update()
+      // retomava a física no nível antigo. loadLevel() mantém-na e showHistory() liberta-a.
+      set_awaitingQuiz(true); try { sceneRef.physics.pause(); } catch {}
       // Cancelar timers da porta antes de mudar de nível
       if(_doorWatchdogTimer){ try{_doorWatchdogTimer.remove(false);}catch{} set__doorWatchdogTimer(null); }
       if(_landingCheckTimer){ try{_landingCheckTimer.remove(false);}catch{} set__landingCheckTimer(null); }
@@ -377,10 +381,12 @@ function create() {
       if(doorOverlap){ try{ sceneRef.physics.world.removeCollider(doorOverlap); }catch{} set_doorOverlap(null); }
       touch.left=touch.right=touch.jump=touch.crouch=false;
       set_livesLostThisLevel(0);
-      sceneRef.physics.resume();
+      // v24: NÃO retomar a física aqui. Durante a animação de transição o jogador ainda está no nível
+      // antigo e os vilões continuavam a andar — dava para perder uma vida antes de o novo nível
+      // sequer aparecer. A física só volta quando o cartão "Sabias que" do nível novo fecha.
       playLevelTransition(sceneRef, idx,
         () => { loadLevel(sceneRef, idx); saveGame(); },
-        () => { showHistory(idx, () => { if(!pausedByTeacher) sceneRef.physics.resume(); }); }
+        () => { showHistory(idx, () => { if(!pausedByTeacher) sceneRef.physics.resume(); spawnGrace(sceneRef); }); }
       );
     };
   }
