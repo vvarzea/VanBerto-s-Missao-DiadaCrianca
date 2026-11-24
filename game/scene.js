@@ -7,32 +7,48 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { loadBossArt } from "./boss-art.js?v=20261123ii1";
-import { onPlatformCollide, getWindX, resetKeys } from "./blocks.js?v=20261123ii1";
-import { createArtOrbs } from "./artefacts.js?v=20261123ii1";
-import { updateBossFight } from "./boss-combat.js?v=20261123ii1";
-import { btnCloseQuiz, btnMute, btnPause, btnRestart, btnRestartGame, gameOverOverlay, historyOverlay, quizOverlay, startOverlay, winOverlay } from "./dom.js?v=20261123ii1";
-import { playLevelTransition } from "./door.js?v=20261123ii1";
-import { pickPraise, showFloat } from "./feedback.js?v=20261123ii1";
-import { createTouchInput } from "./input.js?v=20261123ii1";
-import { onCollectItem, onHitMalware, poweredCountdownVal } from "./items.js?v=20261123ii1";
-import { loadLevel, updateHUD, updateHearts, updateProgressBar } from "./level.js?v=20261123ii1";
-import { BG_FILES, _bootLevelIdx, bgKeyForLevel, prefersReducedMotion, renderMap, setupBackgroundLoading } from "./map.js?v=20261123ii1";
-import { SECONDARY_OVERLAYS, closeAllSecondaryOverlays, loadGame, openOverlay, saveGame } from "./overlays.js?v=20261123ii1";
-import { quizStats, resetQuizStats, showHistory, usedQuizByLevel, usedQuizByTheme } from "./quiz.js?v=20261123ii1";
-import { exitCrouch, setCrouchHitbox, tryEnterPipe } from "./rooms.js?v=20261123ii1";
-import { COYOTE_MS, GRAVITY, JUMP_BUFFER_MS, _critterSession, _doorAnimRunning, _doorWatchdogTimer, _hudDirty, _landingCheckTimer, _overlayPaused, _pipeDownWasHeld, _pipeWarping, _suppressCrouchUntilRelease, awaitingQuiz, awaitingStory, balloons, bossState, controlsInvertedUntil, coyoteUntil, critters, currentLevel, cursors, door, doorOverlap, doubleJumpActive, doubleJumpUsed, getStartLives, hazards, inBossFight, inSecretRoom, invuln, isCrouching, itemsGroup, jumpBufferedUntil, keyS, keySpace, lives, malwareGroup, mapProgress, pauseOverlayGfx, pausedByTeacher, pipes, platforms, player, powerHaloGfx, powered, progressBg, progressFill, resetPipeWarpState, sceneRef, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__historySubOpen, set__hudDirty, set__landingCheckTimer, set__overlayPaused, set__pipeDownWasHeld, set__suppressCrouchUntilRelease, set_awaitingQuiz, set_awaitingStory, set_coyoteUntil, set_cursors, set_difficultyBadge, set_doorOverlap, set_doubleJumpUsed, set_heartsGfx, set_hudText, set_isCrouching, set_itemCountText, set_itemsGroup, set_jumpBufferedUntil, set_keyS, set_keySpace, set_lives, set_livesLostThisLevel, set_malwareGroup, set_pauseOverlayGfx, set_pausedByTeacher, set_platforms, set_player, set_playerNameHUD, set_powerHaloGfx, set_powerIndicator, set_progressBg, set_progressFill, set_sceneRef, set_score, set_scoreText, set_shadowGfx, set_sunAngle, set_tipText, set_transitionGfx, set_transitionLabel, shadowGfx, starPower, starPowerCountVal, sunAngle, touch, updateDifficultyBadge } from "./state.js?v=20261123ii1";
-import { flushScoreToStats } from "./stats.js?v=20261123ii1";
-import { applyVanBertoTexture, scheduleBlink, triggerVanBertoWink } from "./vanberto.js?v=20261123ii1";
-import { updateDecorativePipeReactions, updateHazards, updateMovingPlatforms, updatePipeHintSign, updateSecretSigns, updateSecrets, updateSigns, updateTrampolines } from "./world.js?v=20261123ii1";
-import { makeTextures } from "../textures.js?v=20261123ii1";
-import { initBackground, drawSun, NIGHT_THEMES, drawStars, clouds, drawCloud, updateTrail, updateFootsteps, updateDoorGlow, updatePlatformDecor, bgConfetti } from "../background.js?v=20261123ii1";
-import { isMuted, ensureAudio, SFX, beep } from "../audio.js?v=20261123ii1";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261123ii1";
-import { ACHIEVEMENTS_DEFS } from "../data-progression.js?v=20261123ii1";
-import { unlockedAchievements } from "../achievements.js?v=20261123ii1";
-import { totalStarsEarned } from "../stars.js?v=20261123ii1";
-import { PAUSE_TIPS } from "../data-flavor.js?v=20261123ii1";
+import { loadBossArt } from "./boss-art.js?v=20261123jj1";
+import { onPlatformCollide, getWindX, resetKeys } from "./blocks.js?v=20261123jj1";
+import { createArtOrbs } from "./artefacts.js?v=20261123jj1";
+import { updateBossFight } from "./boss-combat.js?v=20261123jj1";
+import { btnCloseQuiz, btnMute, btnPause, btnRestart, btnRestartGame, gameOverOverlay, historyOverlay, quizOverlay, startOverlay, winOverlay } from "./dom.js?v=20261123jj1";
+import { playLevelTransition } from "./door.js?v=20261123jj1";
+import { pickPraise, showFloat } from "./feedback.js?v=20261123jj1";
+import { createTouchInput } from "./input.js?v=20261123jj1";
+import { onCollectItem, onHitMalware, poweredCountdownVal } from "./items.js?v=20261123jj1";
+import { loadLevel, updateHUD, updateHearts, updateProgressBar } from "./level.js?v=20261123jj1";
+import { BG_FILES, _bootLevelIdx, bgKeyForLevel, prefersReducedMotion, renderMap, setupBackgroundLoading } from "./map.js?v=20261123jj1";
+import { SECONDARY_OVERLAYS, closeAllSecondaryOverlays, loadGame, openOverlay, saveGame } from "./overlays.js?v=20261123jj1";
+import { quizStats, resetQuizStats, showHistory, usedQuizByLevel, usedQuizByTheme } from "./quiz.js?v=20261123jj1";
+import { exitCrouch, setCrouchHitbox, tryEnterPipe } from "./rooms.js?v=20261123jj1";
+import { COYOTE_MS, GRAVITY, JUMP_BUFFER_MS, _critterSession, _doorAnimRunning, _doorWatchdogTimer, _hudDirty, _landingCheckTimer, _overlayPaused, _pipeDownWasHeld, _pipeWarping, _suppressCrouchUntilRelease, awaitingQuiz, awaitingStory, balloons, bossState, controlsInvertedUntil, coyoteUntil, critters, currentLevel, cursors, door, doorOverlap, doubleJumpActive, doubleJumpUsed, getStartLives, hazards, inBossFight, inSecretRoom, invuln, isCrouching, itemsGroup, jumpBufferedUntil, keyS, keySpace, lives, malwareGroup, mapProgress, pauseOverlayGfx, pausedByTeacher, pipes, platforms, player, powerHaloGfx, powered, progressBg, progressFill, resetPipeWarpState, sceneRef, score, scoreText, set__doorAnimRunning, set__doorWatchdogTimer, set__historySubOpen, set__hudDirty, set__landingCheckTimer, set__overlayPaused, set__pipeDownWasHeld, set__suppressCrouchUntilRelease, set_awaitingQuiz, set_awaitingStory, set_coyoteUntil, set_cursors, set_difficultyBadge, set_doorOverlap, set_doubleJumpUsed, set_heartsGfx, set_hudText, set_isCrouching, set_itemCountText, set_itemsGroup, set_jumpBufferedUntil, set_keyS, set_keySpace, set_lives, set_livesLostThisLevel, set_malwareGroup, set_pauseOverlayGfx, set_pausedByTeacher, set_platforms, set_player, set_playerNameHUD, set_powerHaloGfx, set_powerIndicator, set_progressBg, set_progressFill, set_sceneRef, set_score, set_scoreText, set_shadowGfx, set_sunAngle, set_tipText, set_transitionGfx, set_transitionLabel, shadowGfx, starPower, starPowerCountVal, sunAngle, touch, updateDifficultyBadge } from "./state.js?v=20261123jj1";
+import { flushScoreToStats } from "./stats.js?v=20261123jj1";
+import { applyVanBertoTexture, scheduleBlink, triggerVanBertoWink } from "./vanberto.js?v=20261123jj1";
+import { updateDecorativePipeReactions, updateHazards, updateMovingPlatforms, updatePipeHintSign, updateSecretSigns, updateSecrets, updateSigns, updateTrampolines } from "./world.js?v=20261123jj1";
+import { makeTextures } from "../textures.js?v=20261123jj1";
+import { initBackground, drawSun, NIGHT_THEMES, drawStars, clouds, drawCloud, updateTrail, updateFootsteps, updateDoorGlow, updatePlatformDecor, bgConfetti } from "../background.js?v=20261123jj1";
+import { isMuted, ensureAudio, SFX, beep } from "../audio.js?v=20261123jj1";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261123jj1";
+import { ACHIEVEMENTS_DEFS } from "../data-progression.js?v=20261123jj1";
+import { unlockedAchievements } from "../achievements.js?v=20261123jj1";
+import { totalStarsEarned } from "../stars.js?v=20261123jj1";
+import { PAUSE_TIPS } from "../data-flavor.js?v=20261123jj1";
+
+// ===== Resolução de desenho (v23) =====
+// O jogo continua a usar coordenadas 960×540, mas a tela é desenhada a RENDER_RES× (até 2×) e a
+// câmara faz zoom por igual, para o fundo e o texto ficarem nítidos em ecrãs grandes em vez de o
+// navegador esticar uma tela de 960×540 (borrado). Escolhe-se pelo tamanho real do ecrã (em
+// píxeis físicos); "?res=1" força a resolução antiga (útil em tablets/portáteis lentos).
+export const RENDER_RES = (() => {
+  try {
+    const q = parseFloat(new URLSearchParams(location.search).get("res"));
+    if (q > 0) return Math.max(1, Math.min(2, q));
+    const dpr = window.devicePixelRatio || 1;
+    const w = Math.min(window.innerWidth, window.innerHeight * 16 / 9);
+    return Math.max(1, Math.min(2, Math.ceil((w * dpr / 960) * 2) / 2));
+  } catch (e) { return 1; }
+})();
+
 
 // ===== Salas secretas isoladas ("tipo os bosses") =====
 // Em vez de uma plataforma algures no mesmo mundo do nível, entrar num
@@ -101,6 +117,32 @@ function create() {
     Phaser.Input.Keyboard.KeyCodes.SPACE
   ]);
 
+  // Zoom por igual a partir do canto superior esquerdo: o mundo (e o HUD com scrollFactor 0) continuam
+  // a usar coordenadas 960×540, mas ocupam a tela inteira (960*RENDER_RES × 540*RENDER_RES).
+  this.cameras.main.setOrigin(0, 0).setZoom(RENDER_RES);
+  // Com a origem no canto, o Phaser calcula o seguimento (e a zona morta, ver setDeadzone mais abaixo)
+  // a partir do centro da TELA (largura/2), não do centro da área de mundo visível (480×270).
+  // Compensamos: deslocamento = 480 - largura/2 (0 a 1×, -480 a 2×). centerOn faz o mesmo.
+  {
+    const cam = this.cameras.main;
+    if (!cam.__followPatched) {
+      const _sf = cam.startFollow;
+      cam.startFollow = function (t, r, lx, ly, ox, oy) {
+        return _sf.call(this, t, r, lx, ly, ox == null ? 480 - this.width / 2 : ox, oy == null ? 270 - this.height / 2 : oy);
+      };
+      cam.centerOn = function (x, y) {
+        let sx = x - 480, sy = y - 270;
+        if (this.useBounds) { sx = this.clampX(sx); sy = this.clampY(sy); }
+        this.scrollX = sx; this.scrollY = sy;
+        return this;
+      };
+      // O limite do mundo (setBounds) do Phaser assume a origem da câmara ao centro; com a origem no
+      // canto o intervalo válido da câmara é simplesmente [bounds.x, bounds.direita - largura visível].
+      cam.clampX = function (x) { const b = this._bounds; const max = Math.max(b.x, b.x + b.width - this.displayWidth); return Math.min(max, Math.max(b.x, x)); };
+      cam.clampY = function (y) { const b = this._bounds; const max = Math.max(b.y, b.y + b.height - this.displayHeight); return Math.min(max, Math.max(b.y, y)); };
+      cam.__followPatched = true;
+    }
+  }
   this.physics.world.setBounds(0, 0, 2600, 514);
   this.cameras.main.setBounds(0, 0, 2600, 540);
   // Respeita "reduzir movimento" do sistema: sem abanões nem flashes do ecrã.
@@ -1185,9 +1227,19 @@ function updatePowerHalo(scene) {
 export function init_scene_0() {
 
   // config (declarado no início deste ficheiro)
+  // Texto desenhado à resolução da tela (senão ficava borrado com o zoom da câmara).
+  if (RENDER_RES > 1 && !Phaser.GameObjects.GameObjectFactory.prototype.__resPatched) {
+    const _text = Phaser.GameObjects.GameObjectFactory.prototype.text;
+    Phaser.GameObjects.GameObjectFactory.prototype.text = function () {
+      const t = _text.apply(this, arguments);
+      if (t && t.setResolution) t.setResolution(RENDER_RES);
+      return t;
+    };
+    Phaser.GameObjects.GameObjectFactory.prototype.__resPatched = true;
+  }
   config = {
     type: Phaser.AUTO,
-    width: 960, height: 540,
+    width: Math.round(960 * RENDER_RES), height: Math.round(540 * RENDER_RES),
     parent: "game",
     backgroundColor: "#000000",
     transparent: true,
@@ -1195,7 +1247,7 @@ export function init_scene_0() {
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
-      width: 960, height: 540
+      width: Math.round(960 * RENDER_RES), height: Math.round(540 * RENDER_RES)
     },
     scene: { preload, create, update }
   };

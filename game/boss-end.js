@@ -7,17 +7,17 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { collectedBossRights, saveBossRights } from "./artefacts.js?v=20261123ii1";
-import { clearMiniViruses, clearPopupHazard, clearToxicZones, stopPhishingDecoy } from "./boss-attacks.js?v=20261123ii1";
-import { destroyBossHpBar, showBossBanner } from "./boss-core.js?v=20261123ii1";
-import { bossDialogueAnchor, playBossDialogue, vbDialogueAnchor } from "./dialogue.js?v=20261123ii1";
-import { clearExtremoAllies } from "./level.js?v=20261123ii1";
-import { pickQuizForLevel, showQuiz } from "./quiz.js?v=20261123ii1";
-import { bossLockIcon, bossOverlay, bossRageIcon, bossState, bossVignette, currentLevel, hudText, itemCountText, player, sceneRef, set__doorAnimRunning, set_awaitingQuiz, set_bossLockIcon, set_bossOverlay, set_bossRageIcon, set_bossState, set_bossVignette, set_inBossFight, tipText } from "./state.js?v=20261123ii1";
-import { playVanBertoDance } from "./vanberto.js?v=20261123ii1";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261123ii1";
-import { showAchievementToast } from "../achievements.js?v=20261123ii1";
-import { BOSS_VICTORY_VB } from "../data-story.js?v=20261123ii1";
+import { collectedBossRights, saveBossRights } from "./artefacts.js?v=20261123jj1";
+import { clearMiniViruses, clearPopupHazard, clearToxicZones, stopPhishingDecoy } from "./boss-attacks.js?v=20261123jj1";
+import { destroyBossHpBar, showBossBanner } from "./boss-core.js?v=20261123jj1";
+import { bossDialogueAnchor, playBossDialogue, vbDialogueAnchor } from "./dialogue.js?v=20261123jj1";
+import { clearExtremoAllies } from "./level.js?v=20261123jj1";
+import { pickQuizForLevel, showQuiz } from "./quiz.js?v=20261123jj1";
+import { bossLockIcon, bossOverlay, bossRageIcon, bossState, bossVignette, currentLevel, hudText, itemCountText, player, sceneRef, set__doorAnimRunning, set_awaitingQuiz, set_bossLockIcon, set_bossOverlay, set_bossRageIcon, set_bossState, set_bossVignette, set_inBossFight, tipText } from "./state.js?v=20261123jj1";
+import { playVanBertoDance } from "./vanberto.js?v=20261123jj1";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261123jj1";
+import { showAchievementToast } from "../achievements.js?v=20261123jj1";
+import { BOSS_VICTORY_VB } from "../data-story.js?v=20261123jj1";
 
 // ===== Flourish de vitória próprio de cada boss — Fase "Batalhas Épicas" =====
 // Substitui/complementa o confetti genérico por algo ligado ao tema do boss
@@ -31,7 +31,7 @@ function playBossVictoryFlourish(scene, def) {
     // "A luz do conhecimento": clarão quente + livros a subir e a dissipar-se,
     // como a névoa da ignorância a desfazer-se.
     scene.cameras.main.flash(420, 255, 246, 214);
-    const cx = scene.cameras.main.worldView.centerX;
+    const cx = scene.cameras.main.scrollX + 480; // v23: centro visível (a origem da câmara está no canto; worldView.centerX já não serve)
     for (let i = 0; i < 6; i++) {
       scene.time.delayedCall(i * 90, () => {
         if (!scene || !scene.add) return;
