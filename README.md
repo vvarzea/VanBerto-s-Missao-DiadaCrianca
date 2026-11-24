@@ -8,7 +8,7 @@ Motor da Missão Internet Segura v14 (chaves, blocos «?», plataformas que caem
 - Perguntas: temas 4–11 com banco Fácil, Difícil e Extremo (data-quiz.js); os restantes temas usam o banco base nas 3 dificuldades.
 - Gravação: chave `vanbertos_dia_crianca_save_v1`.
 
-- Versão: v26 (carimbo 20261124b1, igual no sw.js, no index.html e nos imports).
+- Versão: v27 (carimbo 20261124c1, igual no sw.js, no index.html e nos imports).
 - Ao publicar uma nova versão, muda esse carimbo em todos os ficheiros para os telemóveis largarem a cache antiga.
 - v17: vilões deixam de girar no ar — têm pés, sombra fixa no chão e animação de passos (textures.js `_w0/_w1`, level.js `spawnVilao`, scene.js `updateMalware`); urso de peluche redesenhado (56×62).
 - v18: fundos novos dos 4 mundos (mundo1-4.webp e map-mundo1-4.webp; mundo3_escuro.webp refeito a partir do novo mundo 3); bosses Monstro da Ignorância e Poluidor Mecânico assentam no chão (bossY 443).
@@ -21,3 +21,4 @@ Motor da Missão Internet Segura v14 (chaves, blocos «?», plataformas que caem
 - v24: proteção de arranque de 2,5s (spawnGrace) quando o nível começa; menu da professora «ir para nível N» já não retoma a física antes da transição (perdia-se vida no nível antigo).
 - v25: ao entrar num nível a partir do mapa (e no menu da professora) o jogo fica travado até ao fim da transição — o watchdog retomava a física no nível antigo e perdia-se uma vida antes de jogar.
 - v26: vilões mais coloridos e sempre com a mesma cor (textures.js): Sombra rosa, Espinho laranja, Bicho da Indiferença verde, Nuvem de Tempestade azul-violeta; explicação inicial (index.html) e dica (data-flavor.js) com as mesmas cores.
+- v27: bosses — o VanBerto's já não começa ao lado do boss (perdia-se uma vida logo no arranque; agora entra na plataforma elevada mais afastada) e o boss deixou de flutuar acima do chão (corpo físico ajustado ao desenho, game/boss-art.js + boss-core.js).

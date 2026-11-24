@@ -7,22 +7,23 @@
  * As variáveis de estado vivem em state.js; aqui alteram-se com set_<nome>().
  *************************************************/
 
-import { clearMiniViruses, clearPopupHazard, clearToxicZones, doBossBlink, doBossHop, doBossIdleArms, doBossIdleBlink, doBossRollQmark, doBossSmokePuff, doBossTeleport, doBossThrowBook, maintainMiniViruses, spawnMiniViruses, spawnPopupHazard, spawnToxicZones, stopPhishingDecoy } from "./boss-attacks.js?v=20261124b1";
-import { bossDialogueAnchor, playBossDialogue, vbDialogueAnchor } from "./dialogue.js?v=20261124b1";
-import { quizOverlay } from "./dom.js?v=20261124b1";
-import { showFloat } from "./feedback.js?v=20261124b1";
-import { clearDoubleJump, clearPower, clearStarPower, setInvuln } from "./items.js?v=20261124b1";
-import { clearExtremoAllies } from "./level.js?v=20261124b1";
-import { applyBackground, bgKeyForLevel } from "./map.js?v=20261124b1";
-import { snapPlayerToGround } from "./rooms.js?v=20261124b1";
-import { _critterSession, balloons, bossLockIcon, bossOverlay, bossRageIcon, bossState, bossTimers, bossVignette, critters, currentLevel, door, enemyTimers, getBossExtraHp, getBossSpeedMult, hudText, inBossFight, itemCountText, itemsGroup, malwareGroup, pipeExitDecor, platforms, player, set__critterSession, set__doorAnimRunning, set_awaitingQuiz, set_awaitingStory, set_balloons, set_bossLockIcon, set_bossOverlay, set_bossRageIcon, set_bossState, set_bossTimers, set_bossVignette, set_controlsInvertedUntil, set_critters, set_door, set_enemyTimers, set_inBossFight, set_invuln, set_pipeExitDecor, tipText } from "./state.js?v=20261124b1";
-import { clearMovingPlatforms, clearSign, clearTrampolines, spawnBossSign, spawnMovingPlatforms } from "./world.js?v=20261124b1";
-import { BOSS_BY_LEVEL } from "../data-bosses.js?v=20261124b1";
-import { clearPlatformDecor } from "../background.js?v=20261124b1";
-import { LEVELS, THEMES } from "../data-levels.js?v=20261124b1";
-import { makePlatformTextureThemed, makeWorldPlatformTexture, setPlatformWorld, platformWorldFromBg } from "../textures.js?v=20261124b1";
-import { ensureAudio, SFX, beep } from "../audio.js?v=20261124b1";
-import { BOSS_OBJECTIVE, BOSS_INTRO_VB, BOSS_HP_TAUNTS } from "../data-story.js?v=20261124b1";
+import { clearMiniViruses, clearPopupHazard, clearToxicZones, doBossBlink, doBossHop, doBossIdleArms, doBossIdleBlink, doBossRollQmark, doBossSmokePuff, doBossTeleport, doBossThrowBook, maintainMiniViruses, spawnMiniViruses, spawnPopupHazard, spawnToxicZones, stopPhishingDecoy } from "./boss-attacks.js?v=20261124c1";
+import { bossDialogueAnchor, playBossDialogue, vbDialogueAnchor } from "./dialogue.js?v=20261124c1";
+import { BOSS_BODY } from "./boss-art.js?v=20261124c1";
+import { quizOverlay } from "./dom.js?v=20261124c1";
+import { showFloat } from "./feedback.js?v=20261124c1";
+import { clearDoubleJump, clearPower, clearStarPower, setInvuln } from "./items.js?v=20261124c1";
+import { clearExtremoAllies } from "./level.js?v=20261124c1";
+import { applyBackground, bgKeyForLevel } from "./map.js?v=20261124c1";
+import { snapPlayerToGround } from "./rooms.js?v=20261124c1";
+import { _critterSession, balloons, bossLockIcon, bossOverlay, bossRageIcon, bossState, bossTimers, bossVignette, critters, currentLevel, door, enemyTimers, getBossExtraHp, getBossSpeedMult, hudText, inBossFight, itemCountText, itemsGroup, malwareGroup, pipeExitDecor, platforms, player, set__critterSession, set__doorAnimRunning, set_awaitingQuiz, set_awaitingStory, set_balloons, set_bossLockIcon, set_bossOverlay, set_bossRageIcon, set_bossState, set_bossTimers, set_bossVignette, set_controlsInvertedUntil, set_critters, set_door, set_enemyTimers, set_inBossFight, set_invuln, set_pipeExitDecor, tipText } from "./state.js?v=20261124c1";
+import { clearMovingPlatforms, clearSign, clearTrampolines, spawnBossSign, spawnMovingPlatforms } from "./world.js?v=20261124c1";
+import { BOSS_BY_LEVEL } from "../data-bosses.js?v=20261124c1";
+import { clearPlatformDecor } from "../background.js?v=20261124c1";
+import { LEVELS, THEMES } from "../data-levels.js?v=20261124c1";
+import { makePlatformTextureThemed, makeWorldPlatformTexture, setPlatformWorld, platformWorldFromBg } from "../textures.js?v=20261124c1";
+import { ensureAudio, SFX, beep } from "../audio.js?v=20261124c1";
+import { BOSS_OBJECTIVE, BOSS_INTRO_VB, BOSS_HP_TAUNTS } from "../data-story.js?v=20261124c1";
 
 
 // =====================================================================
@@ -275,7 +276,15 @@ export function startBossFight(scene, levelJustCompleted, onComplete) {
   const _nonGroundPlats = arenaPlatforms.filter(p => p[2] < worldW * 0.6);
   let _entryX = playerStartX, _entryY = 200;
   if (_nonGroundPlats.length) {
-    const _highPlat = _nonGroundPlats.reduce((a, b) => a[1] < b[1] ? a : b);
+    // v27 CORRIGIDO (perdia-se uma vida mal o combate começava): quando duas plataformas têm a
+    // mesma altura, o reduce() antigo ficava sempre com a da DIREITA — exatamente onde o boss
+    // nasce (worldW-200) — e o VanBerto's começava encostado a ele. Agora só se consideram as
+    // plataformas longe do boss (a mais de 30% da arena) e, entre as mais altas, a mais à esquerda.
+    // Se nenhuma estiver longe, usam-se todas (comportamento antigo).
+    const _bossStartX = worldW - 200;
+    const _farPlats = _nonGroundPlats.filter(p => Math.abs(p[0] - _bossStartX) > worldW * 0.3);
+    const _pool = _farPlats.length ? _farPlats : _nonGroundPlats;
+    const _highPlat = _pool.reduce((a, b) => (a[1] < b[1] || (a[1] === b[1] && a[0] <= b[0])) ? a : b);
     // Centro da própria plataforma (em vez da borda esquerda) — as
     // plataformas mais altas são normalmente mais estreitas, por isso
     // aparecer no centro evita cair logo por estar demasiado perto de
@@ -784,6 +793,13 @@ function spawnBossSprite(scene, def, x) {
   const y = def.bossY != null ? def.bossY : 380;
   const boss = malwareGroup.create(x, y, hasLaugh ? laughKey : (hasCustomTex ? texKey : "vilao_bug"));
   boss.setScale(hasCustomTex ? (def.bossScale || 1.55) : 2.2);
+  // v27: corpo físico ajustado ao desenho (ver BOSS_BODY em boss-art.js) — sem isto o boss
+  // "flutuava" porque a base do corpo passava o limite do mundo e era empurrado para cima.
+  if (hasCustomTex && BOSS_BODY[def.id] && boss.body) {
+    const bb = BOSS_BODY[def.id];
+    boss.body.setSize(bb.w, bb.h, false);
+    boss.body.setOffset(bb.x, bb.y);
+  }
   if (!hasCustomTex) boss.setTint(def.color); // rede de segurança, caso a textura não tenha carregado
   boss.setData("isBoss", true);
   boss.body.setAllowGravity(false);

@@ -10,6 +10,12 @@ export const BOSS_ART_FILES = {
   poluidor_mecanico: "boss_poluidor.webp", guardiao_sombras: "boss_guardiao.webp"
 }; // se uma imagem faltar, o jogo usa o desenho antigo de textures.js
 
+// v27: caixa física de cada boss (em píxeis da textura 232×232), medida a partir do desenho real —
+// ver buildBossArt() e spawnBossSprite(). Antes o corpo físico era a textura INTEIRA (232×232), cuja
+// base fica ~32px abaixo dos pés: com os pés no chão (topo em y=506) a base do corpo passava o limite
+// do mundo (514) e o Phaser empurrava o boss para cima — ficava a flutuar até ~50px acima do chão.
+export const BOSS_BODY = {};
+
 export function loadBossArt(scene) {
   Object.entries(BOSS_ART_FILES).forEach(([id, file]) => {
     if (!scene.textures.exists("bossimg_" + id)) scene.load.image("bossimg_" + id, file);
@@ -31,6 +37,9 @@ export function buildBossArt(scene) {
     if (!img || !img.width) return;
     const k = Math.min(210 / img.width, 196 / img.height);
     const w = img.width * k, h = img.height * k;
+    // Corpo: 76% da largura e 92% da altura do desenho, com a base 8px ACIMA dos pés (linha 200) —
+    // sobra folga para a escala pulsar/esticar (squash, saltinhos) sem tocar no limite do mundo.
+    BOSS_BODY[id] = { x: (S - w) / 2 + w * 0.12, y: 200 - h * 0.92, w: w * 0.76, h: h * 0.92 - 8 };
     const draw = (c, mode) => {
       c.clearRect(0, 0, S, S);
       c.drawImage(img, (S - w) / 2, 200 - h, w, h);              // pés a ~84px do centro: onde assentavam os desenhos antigos
